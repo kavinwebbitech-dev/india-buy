@@ -290,31 +290,31 @@
 
                                 {{-- IMAGE --}}
                                 <a href="{{ route('service.details', $service->id) }}">
-                                <div class="relative h-[170px] w-full overflow-hidden shrink-0">
-                                    @php
-                                        $images = json_decode($service->service_img, true);
+                                    <div class="relative h-[170px] w-full overflow-hidden shrink-0">
+                                        @php
+                                            $images = json_decode($service->service_img, true);
 
-                                        if (json_last_error() === JSON_ERROR_NONE && is_array($images)) {
-                                            $image = $images[0] ?? null;
-                                        } else {
-                                            $image = $service->service_img;
-                                        }
-                                    @endphp
+                                            if (json_last_error() === JSON_ERROR_NONE && is_array($images)) {
+                                                $image = $images[0] ?? null;
+                                            } else {
+                                                $image = $service->service_img;
+                                            }
+                                        @endphp
 
-                                    @if($image)
-                                        <img src="{{ asset('uploads/service/images/'.$image) }}"
-                                            alt="{{ $service->service_name }}"
-                                            class="w-full h-full object-cover">
-                                    @endif
+                                        @if ($image)
+                                            <img src="{{ asset('uploads/service/images/' . $image) }}"
+                                                alt="{{ $service->service_name }}" class="w-full h-full object-cover">
+                                        @endif
                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
+                                        </div>
+                                        <h3
+                                            class="absolute bottom-3 left-4 right-4 text-white font-bold text-[17px] leading-snug">
+                                            {{ $service->service_name }}
+                                        </h3>
                                     </div>
-                                    <h3
-                                        class="absolute bottom-3 left-4 right-4 text-white font-bold text-[17px] leading-snug">
-                                        {{ $service->service_name }}
-                                    </h3>
-                                </div></a>
+                                </a>
 
                                 {{-- CONTENT --}}
                                 <div class="p-5 flex flex-col flex-1">
@@ -392,56 +392,54 @@
             <div class="swiper trendingSwiper !py-2 !px-1 -mx-1">
                 <div class="swiper-wrapper">
 
-                    @foreach ($categories as $category)
-                        @foreach ($category->products as $product)
-                            <div class="swiper-slide h-auto">
+                    @foreach ($trendingProducts as $product)
+                        <div class="swiper-slide h-auto">
 
-                                <a href="{{ route('productdetails', $product->id) }}"
-                                    class="block bg-white rounded-2xl border border-gray-200 p-5 flex flex-col h-[250px] group/card hover:shadow-lg hover:border-primary/20 hover:-translate-y-1 transition-all duration-300">
+                            <a href="{{ route('productdetails', $product->id) }}"
+                                class="block bg-white rounded-2xl border border-gray-200 p-5 flex flex-col h-[250px] group/card hover:shadow-lg hover:border-primary/20 hover:-translate-y-1 transition-all duration-300">
 
-                                    {{-- PRODUCT NAME --}}
-                                    <div class="flex border-b border-gray-100 pb-3 justify-between items-start w-full">
+                                {{-- PRODUCT NAME --}}
+                                <div class="flex border-b border-gray-100 pb-3 justify-between items-start w-full">
 
-                                        <h4 class="text-[14px] font-bold text-gray-800 group-hover/card:text-primary">
+                                    <h4 class="text-[14px] font-bold text-gray-800 group-hover/card:text-primary">
 
-                                            {{ $product->product_name }}
+                                        {{ $product->product_name }}
 
-                                        </h4>
+                                    </h4>
 
-                                        <div
-                                            class="w-7 h-7 rounded-full bg-gray-50 flex items-center justify-center group-hover/card:bg-primary">
-                                            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
-                                        </div>
-
+                                    <div
+                                        class="w-7 h-7 rounded-full bg-gray-50 flex items-center justify-center group-hover/card:bg-primary">
+                                        <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
                                     </div>
 
-                                    {{-- IMAGE --}}
-                                    @php
-                                        $images = json_decode($product->image ?? '[]', true);
-                                        $firstImage = $images[0] ?? null;
-                                    @endphp
+                                </div>
 
-                                    <div class="flex-1 flex items-center justify-center mt-4">
+                                {{-- IMAGE --}}
+                                @php
+                                    $images = json_decode($product->image ?? '[]', true);
+                                    $firstImage = $images[0] ?? null;
+                                @endphp
 
-                                        @if ($firstImage)
-                                            <img src="{{ asset('uploads/products/' . $firstImage) }}"
-                                                class="max-h-36 object-contain group-hover/card:scale-110 transition-transform duration-500">
-                                        @else
-                                            <img src="https://pngimg.com/uploads/engine/engine_PNG31.png"
-                                                class="max-h-36 object-contain">
-                                        @endif
+                                <div class="flex-1 flex items-center justify-center mt-4">
 
-                                    </div>
+                                    @if ($firstImage)
+                                        <img src="{{ asset('uploads/products/' . $firstImage) }}"
+                                            class="max-h-36 object-contain group-hover/card:scale-110 transition-transform duration-500">
+                                    @else
+                                        <img src="https://pngimg.com/uploads/engine/engine_PNG31.png"
+                                            class="max-h-36 object-contain">
+                                    @endif
 
-                                    {{-- CATEGORY --}}
-                                    <div class="text-[12px] text-gray-400 mt-2">
-                                        {{ $category->category_name }}
-                                    </div>
+                                </div>
 
-                                </a>
+                                {{-- CATEGORY --}}
+                                <div class="text-[12px] text-gray-400 mt-2">
+                                    {{ $category->category_name }}
+                                </div>
 
-                            </div>
-                        @endforeach
+                            </a>
+
+                        </div>
                     @endforeach
 
                 </div>
@@ -472,7 +470,7 @@
                         Top Verified Suppliers
                     </h2>
                 </div>
-                <a href="#"
+                <a href="{{ route('supplier_list') }}"
                     class="text-[13px] font-bold text-primary hover:text-primaryHover flex items-center gap-1 transition-colors">
                     View All Suppliers
                 </a>

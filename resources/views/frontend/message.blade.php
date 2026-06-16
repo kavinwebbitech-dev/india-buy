@@ -43,7 +43,6 @@
                         <img src="{{ asset('uploads/products/' . $images[0]) }}"
                              alt="{{ $product->product_name }}"
                              class="max-w-full max-h-full object-contain mix-blend-multiply">
-
                     @endif
 
                 </div>

@@ -45,22 +45,22 @@ class HomeController extends Controller
                 ->take(5)
                 ->get();
         }
-         // 🔥 TRENDING PRODUCTS (IMPORTANT ADDITION)
+        // 🔥 TRENDING PRODUCTS (IMPORTANT ADDITION)
         $trendingProducts = Product::where('status', 1)
-        ->whereNotNull('image')
-        ->inRandomOrder()
-        ->take(12)
-        ->get();
+            ->whereNotNull('image')
+            ->inRandomOrder()
+            ->take(12)
+            ->get();
         $vendors = Vendor::where('status', 1)
-        ->latest()
-        ->take(10)
-        ->get();
-        $businessTypes = BusinessType::with(['categories.subCategories','categories.products'])
-        ->where('status', 1)
-        ->get();
+            ->latest()
+            ->take(10)
+            ->get();
+        $businessTypes = BusinessType::with(['categories.subCategories', 'categories.products'])
+            ->where('status', 1)
+            ->get();
 
 
-        return view('frontend.index', compact('categories', 'categoriesproduct', 'trendingProducts','rfqs','vendors','businessTypes'));
+        return view('frontend.index', compact('categories', 'categoriesproduct', 'trendingProducts', 'rfqs', 'vendors', 'businessTypes'));
     }
 
     public function postrfq()
@@ -68,9 +68,9 @@ class HomeController extends Controller
         if (!auth()->check()) {
             return redirect()->route('login');
         }
-        $category =Category::where('status',1)->get();
+        $category = Category::where('status', 1)->get();
 
-        return view('frontend.postrfq',compact('category'));
+        return view('frontend.postrfq', compact('category'));
     }
 
     // public function products(Request $request){
@@ -81,7 +81,7 @@ class HomeController extends Controller
     // }
     public function products(Request $request)
     {
-        $query = Product::with('vendor');
+        $query = Product::with('vendor')->where('status', 1)->latest();
 
         // Product Search
         if ($request->filled('search')) {
@@ -182,13 +182,13 @@ class HomeController extends Controller
         $products = Product::where('vendor_id', $vendor->id)
             ->latest()
             ->get();
-        $services = Service::where('vendor_id', $vendor->id)->where('status',1)
-        ->latest()
-        ->get();
-        $properties = RealEstate::where('vendor_id',$vendor->id)->where('status',1)->latest()
-        ->get();
+        $services = Service::where('vendor_id', $vendor->id)->where('status', 1)
+            ->latest()
+            ->get();
+        $properties = RealEstate::where('vendor_id', $vendor->id)->where('status', 1)->latest()
+            ->get();
 
-        return view('frontend.vendor_detail', compact('vendor', 'products','services','properties'));
+        return view('frontend.vendor_detail', compact('vendor', 'products', 'services', 'properties'));
     }
 
 
@@ -212,25 +212,25 @@ class HomeController extends Controller
     //     ));
     // }
     public function servicelist(Request $request)
-{
-    $services = Service::where('status', 1);
+    {
+        $services = Service::where('status', 1);
 
-    if ($request->filled('search')) {
-        $services->where('service_name', 'like', '%' . $request->search . '%');
+        if ($request->filled('search')) {
+            $services->where('service_name', 'like', '%' . $request->search . '%');
+        }
+
+        $services = $services->latest()->paginate(12);
+
+        $latestRealEstates = RealEstate::where('status', 1)
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view(
+            'frontend.service_list',
+            compact('services', 'latestRealEstates')
+        );
     }
-
-    $services = $services->latest()->paginate(12);
-
-    $latestRealEstates = RealEstate::where('status', 1)
-        ->latest()
-        ->take(5)
-        ->get();
-
-    return view(
-        'frontend.service_list',
-        compact('services', 'latestRealEstates')
-    );
-}
 
     public function rfqlist(Request $request)
     {
@@ -342,6 +342,9 @@ class HomeController extends Controller
     }
     public function ServiceEnquiryPage($id)
     {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
         $service = Service::findOrFail($id);
 
         return view('frontend.servicemessage', compact('service'));
@@ -462,9 +465,9 @@ class HomeController extends Controller
             ->get();
 
         return response()->json($subcategories);
-    } 
+    }
 
-    
+
     // public function Supplierlist()
     // {
     //     // $vendors = Vendor::where('status',1)->get();
@@ -522,7 +525,7 @@ class HomeController extends Controller
     {
         return view('frontend.supplier-products');
     }
-    
+
 
     public function categoryproductlist($id)
     {
@@ -534,11 +537,11 @@ class HomeController extends Controller
             ->where('status', 1)
             ->where(function ($q) use ($id) {
                 $q->where('category_id', $id)
-                ->orWhereIn('sub_category_id', function ($sub) use ($id) {
-                    $sub->select('id')
-                        ->from('sub_categories')
-                        ->where('category_id', $id);
-                });
+                    ->orWhereIn('sub_category_id', function ($sub) use ($id) {
+                        $sub->select('id')
+                            ->from('sub_categories')
+                            ->where('category_id', $id);
+                    });
             })
             ->latest()
             ->get();
@@ -549,7 +552,7 @@ class HomeController extends Controller
         );
     }
     public function bussinessproductlist($id)
-    {   
+    {
         $bussiness = BusinessType::findOrFail($id);
         $categories = Category::with('subcategories')
             ->where('business_type_id', $id)
@@ -566,7 +569,7 @@ class HomeController extends Controller
 
         return view(
             'frontend.bussiness-products',
-            compact('categories', 'products','bussiness')
+            compact('categories', 'products', 'bussiness')
         );
     }
     public function show($id)

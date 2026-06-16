@@ -72,7 +72,7 @@
                             </div>
                         </div>
 
-                        <div
+                        {{-- <div
                             class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-col sm:flex-row flex-wrap gap-3 items-center">
                             <div class="relative w-full sm:w-auto">
                                 <select
@@ -94,7 +94,7 @@
                             <button
                                 class="text-primary text-[13px] font-bold hover:text-primaryHover transition-colors px-2">Clear
                                 All</button>
-                        </div>
+                        </div> --}}
 
                         <div class="flex-1 overflow-x-auto hide-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[800px]">
@@ -175,7 +175,17 @@
                                                             <img src="{{ asset('uploads/products/' . ($images[0] ?? 'no-image.png')) }}"
                                                                 class="w-full h-full object-contain">
                                                         @elseif($enquiry->service)
-                                                            <img src="{{ asset('uploads/service/images/' . $enquiry->service->service_img) }}"
+                                                            @php
+                                                                $serviceImages = json_decode(
+                                                                    $enquiry->service->service_img,
+                                                                    true,
+                                                                );
+                                                                $serviceImage = !empty($serviceImages[0])
+                                                                    ? $serviceImages[0]
+                                                                    : 'no-image.png';
+                                                            @endphp
+
+                                                            <img src="{{ asset('uploads/service/images/' . $serviceImage) }}"
                                                                 class="w-full h-full object-contain">
                                                         @endif
 
@@ -347,12 +357,12 @@
                             <span class="text-[13px] text-gray-500 font-medium">
                                 Total:
                                 <strong class="text-gray-900">
-                                     {{ \App\Models\Enquiry::where('sender_id', Auth::guard('vendor')->id())->count() }}
+                                    {{ \App\Models\Enquiry::where('sender_id', Auth::guard('vendor')->id())->count() }}
                                 </strong>
                             </span>
                         </div>
 
-                        <div
+                        {{-- <div
                             class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-col sm:flex-row flex-wrap gap-3 items-center">
                             <div class="relative w-full sm:w-auto">
                                 <select
@@ -390,7 +400,7 @@
                             <button
                                 class="text-primary text-[13px] font-bold hover:text-primaryHover transition-colors px-2">Clear
                                 All</button>
-                        </div>
+                        </div> --}}
 
                         <div class="flex-1 overflow-x-auto hide-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[800px]">
@@ -485,13 +495,22 @@
 
                                                 <div class="flex items-center gap-3">
 
-                                                    <div
-                                                        class="w-12 h-12 rounded-xl border border-gray-100 p-1 bg-white shadow-sm">
+                                                    @foreach ($enquiries as $enquiry)
+                                                        @if ($enquiry->service)
+                                                            @php
+                                                                $images =
+                                                                    json_decode($enquiry->service->images, true) ?? [];
+                                                            @endphp
 
-                                                        <img src="{{ $image }}"
-                                                            class="w-full h-full object-contain">
-
-                                                    </div>
+                                                            @foreach ($images as $img)
+                                                                <div
+                                                                    class="w-12 h-12 rounded-xl border border-gray-100 p-1 bg-white shadow-sm">
+                                                                    <img src="{{ asset('uploads/service/images/' . $img) }}"
+                                                                        class="w-full h-full object-contain">
+                                                                </div>
+                                                            @endforeach
+                                                        @endif
+                                                    @endforeach
 
                                                     <div>
 

@@ -48,7 +48,7 @@
                     class="flex flex-col items-center text-gray-600 hover:text-primary transition-colors gap-1 group">
                     <i data-lucide="megaphone"
                         class="w-5 h-5 text-gray-500 group-hover:text-primary transition-colors"></i>
-                    <span class="whitespace-nowrap">Post RFQ111</span>
+                    <span class="whitespace-nowrap">Post RFQ</span>
                 </a>
                 {{-- <a href="{{ route('user.dashboard') }}"
                     class="flex flex-col items-center text-gray-600 hover:text-primary transition-colors gap-1 group">
@@ -185,45 +185,32 @@
                     {{-- FULL WIDTH MEGA MENU DROPDOWN --}}
                     <div class="absolute top-full left-0 hidden group-hover:block z-[9999] pt-2">
 
-                        {{-- FIX: Removed 'w-full' and used 'w-[1250px]' with a responsive 'max-w-[95vw]' --}}
                         <div class="w-[1350px] max-w-[100vw] bg-white border border-gray-100 rounded-xl shadow-xl p-8">
 
                             {{-- SCROLLABLE WRAPPER --}}
                             <div
                                 class="max-h-[250px] md:max-h-[350px] lg:max-h-[450px] xl:max-h-[500px] overflow-y-auto pr-4 custom-scroll">
 
-                                {{-- Grid layout for all categories and their subcategories --}}
-                                <div class="grid grid-cols-4 gap-x-4 gap-y-4">
+                                @php
+                                    $categories = \App\Models\Category::where('status', 1)->get();
+                                @endphp
 
-                                    @php
-                                        $categories = \App\Models\Category::with([
-                                            'subCategories' => function ($query) {
-                                                $query->where('status', 1)->take(4);
-                                            },
-                                        ])
-                                            ->where('status', 1)
-                                            ->get();
-                                    @endphp
-
+                                {{-- Grid layout for all categories --}}
+                                <div class="grid grid-cols-4 gap-x-4 gap-y-4 max-h-[250px]">
                                     @forelse($categories as $category)
-                                        {{-- CATEGORY COLUMN --}}
                                         <div class="flex flex-col">
-
-                                            {{-- MAIN CATEGORY NAME (Header) --}}
                                             <a href="{{ route('categoryproducts', $category->id) }}"
                                                 class="text-[14px] text-gray-800 hover:text-primary transition-colors">
                                                 {{ $category->category_name }}
                                             </a>
-
                                         </div>
-
                                     @empty
                                         <div class="col-span-4 text-center py-10 text-gray-500">
                                             No Categories Found
                                         </div>
                                     @endforelse
-
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -245,10 +232,10 @@
                 </div>
             </div>
 
-            <a href="#" class="hover:text-primary transition-colors flex items-center gap-1.5 font-semibold">
+            {{-- <a href="#" class="hover:text-primary transition-colors flex items-center gap-1.5 font-semibold">
                 <i data-lucide="headset" class="text-gray-400 w-4 h-4"></i>
                 Help & Community
-            </a>
+            </a> --}}
         </div>
     </nav>
 
