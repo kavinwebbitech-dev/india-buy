@@ -84,6 +84,7 @@
         const productSwiper = new Swiper('.trendingSwiper', {
             slidesPerView: 1,
             spaceBetween: 16,
+            loop: true, // Enable infinite loop for services
             
             // --- NEW: Autoplay Configuration ---
             autoplay: {
@@ -109,6 +110,7 @@
         const serviceSwiper = new Swiper('.trendingService', {
             slidesPerView: 1,
             spaceBetween: 16,
+            loop: true, // Enable infinite loop for services
             
             // --- NEW: Autoplay Configuration ---
             autoplay: {
@@ -143,6 +145,7 @@
 const supplierSwiper = new Swiper('.supplierSwiper', {
     slidesPerView: 1,
     spaceBetween: 16,
+    loop: true, // Enable infinite loop for services
     
     // Autoplay Configuration
     autoplay: {

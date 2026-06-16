@@ -206,7 +206,7 @@
                                         class="bg-white border-b border-gray-100 text-[12px] uppercase tracking-wider text-gray-400 font-bold">
                                         <th class="px-6 py-4 w-12 text-center">#</th>
                                         <th class="px-6 py-4">Sender Info</th>
-                                        <th class="px-6 py-4">Interested Product</th>
+                                        <th class="px-6 py-4">Interested Product11</th>
                                         <th class="px-6 py-4">Location</th>
                                         <th class="px-6 py-4 text-center">Action</th>
                                     </tr>

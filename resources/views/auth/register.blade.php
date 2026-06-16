@@ -25,10 +25,9 @@
     </style>
 
 
-    <section class="bg-slate-50 min-h-screen text-gray-800 antialiased flex items-center justify-center p-2">
+    <section class="bg-slate-50 text-gray-800 antialiased flex items-center justify-center p-2 sm:p-6">
 
-        <div
-            class="bg-white w-full max-w-[1000px] min-h-[600px] rounded-3xl shadow-[0_8px_40px_rgb(0,0,0,0.06)] border border-gray-100 flex overflow-hidden relative">
+        <div class="bg-white w-full max-w-[1000px] min-h-[600px] rounded-3xl shadow-[0_8px_40px_rgb(0,0,0,0.06)] border border-gray-100 flex overflow-hidden relative">
 
             <!-- Left Side -->
             <div

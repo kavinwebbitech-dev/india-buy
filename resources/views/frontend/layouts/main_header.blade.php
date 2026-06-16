@@ -19,8 +19,7 @@
 
         <div
             class="flex-1 max-w-3xl hidden md:flex items-center border-2 border-primary rounded-full bg-white h-11 transition-shadow focus-within:shadow-md focus-within:shadow-primary/10">
-            <div
-                class="relative h-full flex items-center border-r border-gray-200 bg-gray-50 hover:bg-gray-100 rounded-l-full shrink-0">
+            <div class="relative h-full flex items-center border-r border-gray-200 bg-gray-50 hover:bg-gray-100 rounded-l-full shrink-0">
                 <select id="searchType"
                     class="h-full pl-4 pr-8 text-[14px] text-gray-700 bg-transparent appearance-none focus:outline-none cursor-pointer font-medium z-10">
                     <option value="products">Products</option>
@@ -154,12 +153,20 @@
     {{-- 2. MOBILE EXPANDABLE SEARCH BAR            --}}
     {{-- ========================================== --}}
     <div id="mobileSearchContainer" class="md:hidden px-4 pb-3">
-        <div
-            class="flex items-center border-2 border-primary rounded-full overflow-hidden bg-white h-11 focus-within:shadow-md focus-within:shadow-primary/10 transition-shadow">
+        <div class="flex items-center border-2 border-primary rounded-full overflow-hidden bg-white h-11 focus-within:shadow-md focus-within:shadow-primary/10 transition-shadow">
+            <div class="relative h-full flex items-center border-r border-gray-200 bg-gray-50 hover:bg-gray-100 rounded-l-full shrink-0">
+                <select id="searchType"
+                    class="h-full pl-4 pr-8 text-[14px] text-gray-700 bg-transparent appearance-none focus:outline-none cursor-pointer font-medium z-10">
+                    <option value="products">Products</option>
+                    <option value="services">Services</option>
+                </select>
+                <i data-lucide="chevron-down"
+                    class="w-3.5 h-3.5 text-gray-500 absolute right-3 pointer-events-none z-0"></i>
+            </div>
             <input type="text" id="mobileSearchKeyword" placeholder="Search..."
-                class="flex-1 h-full px-4 focus:outline-none text-[15px] bg-transparent">
+                class="flex-1 h-full px-1 sm:px-4 focus:outline-none text-[15px] bg-transparent">
             <button type="button" id="mobileSearchBtn"
-                class="h-full bg-primary hover:bg-red-600 text-white px-5 flex items-center justify-center transition-colors">
+                class="h-full bg-primary hover:bg-red-600 text-white sm:px-2 px-1 flex items-center justify-center transition-colors">
                 <i data-lucide="search" class="w-5 h-5"></i>
             </button>
         </div>
@@ -273,9 +280,18 @@
                 class="flex items-center gap-3 py-3 text-gray-700 hover:text-primary font-medium border-b border-gray-50">
                 <i data-lucide="briefcase" class="w-5 h-5 text-gray-400"></i> Services
             </a>
+            <a href="{{ route('sevice_list') }}"
+                class="flex items-center gap-3 py-3 text-gray-700 hover:text-primary font-medium border-b border-gray-50">
+                <i data-lucide="briefcase" class="w-5 h-5 text-gray-400"></i> Supplier
+            </a>
             <a href="{{ route('postrfq') }}"
                 class="flex items-center gap-3 py-3 text-gray-700 hover:text-primary font-medium border-b border-gray-50">
                 <i data-lucide="megaphone" class="w-5 h-5 text-gray-400"></i> Post RFQ
+            </a>
+
+            <a href="{{ route('postrfq') }}"
+                class="flex items-center gap-3 py-3 text-gray-700 hover:text-primary font-medium border-b border-gray-50">
+                <i data-lucide="megaphone" class="w-5 h-5 text-gray-400"></i> RFQ Inbox
             </a>
 
             <div class="mt-4 mb-2 text-xs font-bold text-gray-400 uppercase tracking-wider">Account</div>
