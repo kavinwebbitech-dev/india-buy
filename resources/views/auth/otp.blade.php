@@ -9,7 +9,7 @@
     @include('auth.Layout.main_header')
 
    {{-- OTP VERIFY SECTION --}}
-<section class="min-h-screen flex items-center justify-center px-4 py-10 bg-slate-50">
+<section class="flex items-center justify-center px-4 py-10 bg-slate-50">
 
     <div class="w-full max-w-md bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
 
