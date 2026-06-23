@@ -62,62 +62,66 @@ class ChatController extends Controller
     //         'updated' => $updated
     //     ]);
     // }
-
-
-    // public function markAsRead($enquiryId)
-    // {
-    //     $userId = Auth::guard('vendor')->id() ?: Auth::id();
-
-    //     $updated = Message::where('enquiry_id', $enquiryId)
-    //         ->where('receiver_id', $userId)
-    //         ->where('is_read', 0)
-    //         ->update([
-    //             'is_read' => 1
-    //         ]);
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'updated' => $updated
-    //     ]);
-    // }
-
-    public function markAsRead($enquiryId)
+public function markAsRead($enquiryId)
 {
-    $userId = null;
-    $guardType = null;
-
+    // dd(1);
     if (Auth::guard('vendor')->check()) {
         $userId = Auth::guard('vendor')->id();
-        $guardType = 'vendor';
     } elseif (Auth::check()) {
         $userId = Auth::id();
-        $guardType = 'user';
-    }
-
-    if (!$userId) {
+    } else {
         return response()->json(['success' => false, 'message' => 'Unauthenticated'], 401);
     }
-
-    $enquiry = \App\Models\Enquiry::find($enquiryId);
-
-    if (!$enquiry) {
-        return response()->json(['success' => false, 'message' => 'Enquiry not found'], 404);
-    }
-
-    // ✅ Determine the correct receiver_id to match against
-    // Only mark as read if current logged-in party is the actual receiver of this enquiry
     $updated = Message::where('enquiry_id', $enquiryId)
         ->where('receiver_id', $userId)
         ->where('is_read', 0)
         ->update(['is_read' => 1]);
+    // dd($enquiryId,$updated);
 
     return response()->json([
         'success' => true,
         'updated' => $updated,
-        'guard' => $guardType,
         'userId' => $userId,
-        'enquiry_sender_id' => $enquiry->sender_id,
-        'enquiry_receiver_id' => $enquiry->receiver_id,
     ]);
 }
+
+//     public function markAsRead($enquiryId)
+// {
+//     $userId = null;
+//     $guardType = null;
+
+//     if (Auth::guard('vendor')->check()) {
+//         $userId = Auth::guard('vendor')->id();
+//         $guardType = 'vendor';
+//     } elseif (Auth::check()) {
+//         $userId = Auth::id();
+//         $guardType = 'user';
+//     }
+
+//     if (!$userId) {
+//         return response()->json(['success' => false, 'message' => 'Unauthenticated'], 401);
+//     }
+
+//     $enquiry = \App\Models\Enquiry::find($enquiryId);
+
+//     if (!$enquiry) {
+//         return response()->json(['success' => false, 'message' => 'Enquiry not found'], 404);
+//     }
+
+//     // ✅ Determine the correct receiver_id to match against
+//     // Only mark as read if current logged-in party is the actual receiver of this enquiry
+//     $updated = Message::where('enquiry_id', $enquiryId)
+//         ->where('receiver_id', $userId)
+//         ->where('is_read', 0)
+//         ->update(['is_read' => 1]);
+
+//     return response()->json([
+//         'success' => true,
+//         'updated' => $updated,
+//         'guard' => $guardType,
+//         'userId' => $userId,
+//         'enquiry_sender_id' => $enquiry->sender_id,
+//         'enquiry_receiver_id' => $enquiry->receiver_id,
+//     ]);
+// }
 }

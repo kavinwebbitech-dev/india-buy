@@ -81,7 +81,7 @@ class HomeController extends Controller
     // }
     public function products(Request $request)
     {
-        $query = Product::with('vendor');
+        $query = Product::with('vendor')->where('status', 1)->latest();
 
         // Product Search
         if ($request->filled('search')) {

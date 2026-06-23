@@ -137,12 +137,12 @@
                                         class="w-full h-full object-contain p-5">
                                 @endif
 
-                                <button
+                                {{-- <button
                                     class="absolute top-4 right-4 w-8 h-8 bg-white border border-gray-100 rounded-full flex items-center justify-center text-gray-400 hover:text-red-500">
 
                                     <i data-lucide="heart" class="w-4 h-4"></i>
 
-                                </button>
+                                </button> --}}
 
                             </div>
 

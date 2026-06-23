@@ -706,7 +706,7 @@ public function propertyDelete($id)
         foreach ($datasheets as $file) {
 
             $path = public_path(
-                'uploads/relastate/datasheet/' . $file
+                'uploads/relastate/documents/' . $file
             );
 
             if (file_exists($path)) {

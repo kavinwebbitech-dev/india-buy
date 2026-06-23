@@ -1,12 +1,7 @@
-@include('vendor.service.Layout.head')
+@include('vendor.Layout.head')
 
-<body class="text-gray-800 antialiased font-sans bg-slate-50">
-
-    {{-- TOP BAR --}}
-    @include('vendor.service.Layout.top_bar')
-
-    {{-- HEADER --}}
-    @include('vendor.service.Layout.main_header')
+@include('vendor.Layout.top_bar')
+@include('vendor.Layout.main_header')
 
     @php
         $vendor = Auth::guard('vendor')->user();
@@ -15,7 +10,7 @@
     <div class="bg-slate-50 min-h-screen py-8">
         <div class="max-w-7xl mx-auto px-4">
 
-            @include('vendor.service.Layout.service_menubar')
+            @include('vendor.Layout.menu_bar')
 
             <div class="flex flex-col lg:flex-row gap-8">
 
@@ -80,7 +75,7 @@
                             </div>
                         </div>
 
-                        <div
+                        {{-- <div
                             class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-col sm:flex-row flex-wrap gap-3 items-center">
                             <div class="relative w-full sm:w-auto">
                                 <select
@@ -102,7 +97,7 @@
                             <button
                                 class="text-primary text-[13px] font-bold hover:text-primaryHover transition-colors px-2">Clear
                                 All</button>
-                        </div>
+                        </div> --}}
 
                         <div class="flex-1 overflow-x-auto hide-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[800px]">
@@ -357,7 +352,7 @@
                             </span>
                         </div>
 
-                        <div
+                        {{-- <div
                             class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-col sm:flex-row flex-wrap gap-3 items-center">
                             <div class="relative w-full sm:w-auto">
                                 <select
@@ -395,7 +390,7 @@
                             <button
                                 class="text-primary text-[13px] font-bold hover:text-primaryHover transition-colors px-2">Clear
                                 All</button>
-                        </div>
+                        </div> --}}
 
                         <div class="flex-1 overflow-x-auto hide-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[800px]">
@@ -564,18 +559,20 @@
                             </table>
                         </div>
 
-                        <div
-                            class="border-t border-gray-100 p-4 bg-white flex items-center justify-between text-[13px] text-gray-500">
-                            <span>
-                                Showing {{ $enquiries->firstItem() ?? 0 }}
-                                to {{ $enquiries->lastItem() ?? 0 }}
-                                of {{ $enquiries->total() }} entries
-                            </span>
+                        @if (isset($enquiries))
+                            <div
+                                class="border-t border-gray-100 p-4 bg-white flex items-center justify-between text-[13px] text-gray-500">
+                                <span>
+                                    Showing {{ $enquiries->firstItem() ?? 0 }}
+                                    to {{ $enquiries->lastItem() ?? 0 }}
+                                    of {{ $enquiries->total() }} entries
+                                </span>
 
-                            <div>
-                                {{ $enquiries->links() }}
+                                <div>
+                                    {{ $enquiries->links() }}
+                                </div>
                             </div>
-                        </div>
+                        @endif
 
                     </div>
 

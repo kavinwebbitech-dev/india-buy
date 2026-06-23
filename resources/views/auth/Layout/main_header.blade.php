@@ -17,7 +17,7 @@
             </a>
         </div>
 
-        <div
+        {{-- <div
             class="flex-1 max-w-3xl hidden md:flex items-center border-2 border-primary rounded-full bg-white h-11 transition-shadow focus-within:shadow-md focus-within:shadow-primary/10">
             <div
                 class="relative h-full flex items-center border-r border-gray-200 bg-gray-50 hover:bg-gray-100 rounded-l-full shrink-0">
@@ -35,7 +35,7 @@
                 class="h-full bg-primary hover:bg-red-600 text-white px-8 font-medium transition-colors flex items-center justify-center rounded-r-full shrink-0">
                 Search
             </button>
-        </div>
+        </div> --}}
 
         <div class="flex items-center gap-4 lg:gap-8 shrink-0">
 
@@ -56,7 +56,7 @@
                         class="w-5 h-5 text-gray-500 group-hover:text-primary transition-colors"></i>
                     <span class="whitespace-nowrap">Messages</span>
                 </a> --}}
-                <a href="{{ route('user.dashboard') }}"
+                {{-- <a href="{{ route('user.dashboard') }}"
                     class="relative flex flex-col items-center text-gray-600 hover:text-primary transition-colors gap-1 group">
 
                     <i data-lucide="message-square-text"
@@ -66,6 +66,22 @@
 
                     @if ($messageCount > 0)
                         <span
+                            class="absolute -top-1 right-0 bg-red-500 text-white text-[10px] min-w-[18px] h-[18px] rounded-full flex items-center justify-center px-1">
+                            {{ $messageCount }}
+                        </span>
+                    @endif
+
+                </a> --}}
+                <a href="{{ route('user.dashboard') }}"
+                    class="relative flex flex-col items-center text-gray-600 hover:text-primary transition-colors gap-1 group">
+
+                    <i data-lucide="message-square-text"
+                        class="w-5 h-5 text-gray-500 group-hover:text-primary transition-colors"></i>
+
+                    <span class="whitespace-nowrap">Messages</span>
+
+                    @if ($messageCount > 0)
+                        <span id="message-count-badge"
                             class="absolute -top-1 right-0 bg-red-500 text-white text-[10px] min-w-[18px] h-[18px] rounded-full flex items-center justify-center px-1">
                             {{ $messageCount }}
                         </span>
@@ -325,4 +341,130 @@
         closeBtn?.addEventListener('click', closeSidebar);
         overlay?.addEventListener('click', closeSidebar);
     });
+
+    <
+    script >
+        let currentEnquiryId = null;
+    const markReadUrl = "{{ route('chat.markRead', ':id') }}";
+
+    function openChat(enquiryId, itemName, supplierName, imageUrl) {
+
+        currentEnquiryId = enquiryId;
+
+        document.getElementById('chat-item-name').textContent = itemName;
+        document.getElementById('chat-supplier-name').textContent = supplierName;
+        document.getElementById('chat-item-image').src = imageUrl;
+
+        const chat = document.getElementById('supplier-chat-widget');
+        chat.classList.remove('translate-y-[120%]');
+        chat.classList.remove('opacity-0');
+
+        // ✅ Fixed: build markUrl correctly (was using undefined 'url')
+        let markUrl = markReadUrl.replace(':id', enquiryId);
+        // alert(21);
+
+        fetch(markUrl, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                console.log('Mark read:', data);
+
+                document.querySelector(`#unread-${enquiryId}`)?.remove();
+
+                let badge = document.getElementById('message-count-badge');
+
+                if (badge) {
+
+                    if (data.count > 0) {
+
+                        badge.innerText = data.count;
+
+                    } else {
+
+                        badge.remove();
+
+                    }
+                }
+            })
+            .catch(err => console.error('Mark read error:', err));
+
+        loadMessages(enquiryId);
+        document.querySelector(`#unread-${enquiryId}`)?.remove();
+    }
+
+    function loadMessages(enquiryId) {
+        let url = "{{ route('enquiries.messages', ':id') }}";
+        url = url.replace(':id', enquiryId);
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                let html = '';
+
+                data.forEach(msg => {
+                    let isMine = msg.sender_id == {{ auth()->id() }};
+
+                    html += `
+                        <div class="flex ${isMine ? 'justify-end' : 'justify-start'}">
+                            <div class="${isMine
+                                ? 'bg-blue-600 text-white'
+                                : 'bg-white border border-gray-200 text-gray-800'}
+                                px-4 py-2 rounded-2xl max-w-[75%]">
+                                <div class="text-[13px]">${msg.message}</div>
+                                <div class="text-[10px] mt-1 opacity-70">${msg.sender.name}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                document.getElementById('chat-messages').innerHTML = html;
+                let box = document.getElementById('chat-messages');
+                box.scrollTop = box.scrollHeight;
+            });
+    }
+
+    function sendMessage() {
+        let message = document.getElementById('chat-message').value;
+        if (message.trim() === '') return;
+
+        let url = "{{ route('enquiries.messages.store', ':id') }}";
+        url = url.replace(':id', currentEnquiryId);
+
+        fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: message
+                })
+            })
+            .then(response => response.json())
+            .then(() => {
+                document.getElementById('chat-message').value = '';
+                loadMessages(currentEnquiryId);
+            });
+    }
+
+    document.getElementById('close-chat-btn').addEventListener('click', function() {
+        const chat = document.getElementById('supplier-chat-widget');
+        chat.classList.add('translate-y-[120%]');
+        chat.classList.add('opacity-0');
+    });
+
+    setInterval(() => {
+        if (currentEnquiryId) {
+            loadMessages(currentEnquiryId);
+        }
+    }, 3000);
+</script>
 </script>

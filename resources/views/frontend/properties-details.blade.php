@@ -207,7 +207,7 @@
                         </h3>
                         <div class="space-y-2.5">
                             @foreach($datasheets as $file)
-                                <a href="{{ asset('uploads/relastate/datasheet/'.$file) }}" target="_blank"
+                                <a href="{{ asset('uploads/relastate/documents/'.$file) }}" target="_blank"
                                    class="flex items-center justify-between bg-slate-50 hover:bg-primary/5 border border-gray-100 p-3 rounded-xl transition text-left group">
                                     <span class="text-xs font-bold text-gray-700 truncate max-w-[180px]">📄 {{ $file }}</span>
                                     <i data-lucide="download" class="w-4 h-4 text-gray-400 group-hover:text-primary transition-colors"></i>

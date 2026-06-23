@@ -480,7 +480,7 @@
 
                 @php
 
-                    $datasheets = json_decode($property->datasheet, true);
+                    $datasheets = json_decode($property->documents, true);
 
                     if (!is_array($datasheets)) {
                         $datasheets = [];
@@ -492,7 +492,7 @@
 
                     @forelse($datasheets as $file)
 
-                        <a href="{{ asset('uploads/relastate/datasheet/'.$file) }}"
+                        <a href="{{ asset('uploads/relastate/documents/'.$file) }}"
                            target="_blank"
                            class="btn btn-primary">
 

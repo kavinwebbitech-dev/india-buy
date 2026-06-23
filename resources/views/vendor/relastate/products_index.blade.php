@@ -161,10 +161,10 @@
                                     <td class="py-4">
 
                                         @if (!empty($images))
-                                            <img src="{{ asset('uploads/realestate/images/' . $images[0]) }}"
+                                            <img src="{{ asset('uploads/relastate/images/' . $images[0]) }}"
                                                 class="w-16 h-16 rounded-xl object-cover border">
                                         @elseif(!empty($images1))
-                                            <img src="{{ asset('uploads/realestate/images/' . $images1[0]) }}"
+                                            <img src="{{ asset('uploads/relastate/images/' . $images1[0]) }}"
                                                 class="w-16 h-16 rounded-xl object-cover border">
                                         @else
                                             <img src="{{ asset('admin/no-image.png') }}"

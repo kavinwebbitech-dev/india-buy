@@ -80,7 +80,7 @@
                             </div>
                         </div>
 
-                        <div
+                        {{-- <div
                             class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-col sm:flex-row flex-wrap gap-3 items-center">
                             <div class="relative w-full sm:w-auto">
                                 <select
@@ -102,7 +102,7 @@
                             <button
                                 class="text-primary text-[13px] font-bold hover:text-primaryHover transition-colors px-2">Clear
                                 All</button>
-                        </div>
+                        </div> --}}
 
                         <div class="flex-1 overflow-x-auto hide-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[800px]">
@@ -357,7 +357,7 @@
                             </span>
                         </div>
 
-                        <div
+                        {{-- <div
                             class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-col sm:flex-row flex-wrap gap-3 items-center">
                             <div class="relative w-full sm:w-auto">
                                 <select
@@ -395,7 +395,7 @@
                             <button
                                 class="text-primary text-[13px] font-bold hover:text-primaryHover transition-colors px-2">Clear
                                 All</button>
-                        </div>
+                        </div> --}}
 
                         <div class="flex-1 overflow-x-auto hide-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[800px]">

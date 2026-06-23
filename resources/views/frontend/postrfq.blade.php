@@ -45,8 +45,8 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <i data-lucide="chevron-down"
-                                    class="w-4 h-4 text-gray-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                                {{-- <i data-lucide="chevron-down"
+                                    class="w-4 h-4 text-gray-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"></i> --}}
                             </div>
                         </div>
                          <div>
@@ -58,8 +58,8 @@
                                     class="w-full h-11 pl-4 pr-8 bg-slate-50 border border-gray-200 rounded-xl">
                                     <option value="">Select Sub Category</option>
                                 </select>
-                                <i data-lucide="chevron-down"
-                                    class="w-4 h-4 text-gray-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                                {{-- <i data-lucide="chevron-down"
+                                    class="w-4 h-4 text-gray-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"></i> --}}
                             </div>
                         </div>
                         <div>

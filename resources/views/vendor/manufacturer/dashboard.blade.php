@@ -72,7 +72,7 @@
                             </div>
                         </div>
 
-                        <div
+                        {{-- <div
                             class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-col sm:flex-row flex-wrap gap-3 items-center">
                             <div class="relative w-full sm:w-auto">
                                 <select
@@ -94,7 +94,7 @@
                             <button
                                 class="text-primary text-[13px] font-bold hover:text-primaryHover transition-colors px-2">Clear
                                 All</button>
-                        </div>
+                        </div> --}}
 
                         <div class="flex-1 overflow-x-auto hide-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[800px]">
@@ -114,7 +114,7 @@
                                         @php
                                             $hasUnread = \App\Models\Message::where('enquiry_id', $enquiry->id)
                                                 ->where('receiver_id', Auth::guard('vendor')->id())
-                                                ->where('is_read', 0)
+                                                ->where('is_read', 1)
                                                 ->exists();
                                         @endphp
 
@@ -362,7 +362,7 @@
                             </span>
                         </div>
 
-                        <div
+                        {{-- <div
                             class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-col sm:flex-row flex-wrap gap-3 items-center">
                             <div class="relative w-full sm:w-auto">
                                 <select
@@ -400,7 +400,7 @@
                             <button
                                 class="text-primary text-[13px] font-bold hover:text-primaryHover transition-colors px-2">Clear
                                 All</button>
-                        </div>
+                        </div> --}}
 
                         <div class="flex-1 overflow-x-auto hide-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[800px]">
@@ -464,15 +464,15 @@
                                                     <div
                                                         class="w-10 h-10 rounded-full bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg">
 
-                                                        {{ strtoupper(substr($enquiry->receiver->company_name ?? 'S', 0, 1)) }}
+                                                        {{ strtoupper(substr($enquiry->receiver->name  ?? 'S', 0, 1)) }}
 
                                                     </div>
 
                                                     <div>
 
                                                         <p class="font-bold text-gray-900 leading-tight">
-
-                                                            {{ $enquiry->receiver->company_name ?? 'Unknown Supplier' }}
+                                                           
+                                                            {{ $enquiry->receiver->name ?? 'Unknown Supplier' }}
 
                                                         </p>
 
@@ -495,13 +495,22 @@
 
                                                 <div class="flex items-center gap-3">
 
-                                                    <div
-                                                        class="w-12 h-12 rounded-xl border border-gray-100 p-1 bg-white shadow-sm">
+                                                    @foreach ($enquiries as $enquiry)
+                                                        @if ($enquiry->service)
+                                                            @php
+                                                                $images =
+                                                                    json_decode($enquiry->service->images, true) ?? [];
+                                                            @endphp
 
-                                                        <img src="{{ $image }}"
-                                                            class="w-full h-full object-contain">
-
-                                                    </div>
+                                                            @foreach ($images as $img)
+                                                                <div
+                                                                    class="w-12 h-12 rounded-xl border border-gray-100 p-1 bg-white shadow-sm">
+                                                                    <img src="{{ asset('uploads/service/images/' . $img) }}"
+                                                                        class="w-full h-full object-contain">
+                                                                </div>
+                                                            @endforeach
+                                                        @endif
+                                                    @endforeach
 
                                                     <div>
 

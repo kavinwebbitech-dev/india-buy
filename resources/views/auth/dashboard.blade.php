@@ -136,7 +136,7 @@
                             </div>
                         </div>
 
-                        <div
+                        {{-- <div
                             class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-col sm:flex-row flex-wrap gap-3 items-center">
                             <div class="relative w-full sm:w-auto">
                                 <select
@@ -158,7 +158,46 @@
                             <button
                                 class="text-primary text-[13px] font-bold hover:text-primaryHover transition-colors px-2">Clear
                                 All</button>
-                        </div>
+                        </div> --}}
+
+                        {{-- <form method="GET" action="{{ route('auth.dashboard') }}#panel-inbox"
+                            class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-col sm:flex-row flex-wrap gap-3 items-center">
+
+                            <div class="relative w-full sm:w-auto">
+                                <select name="sent_time"
+                                    class="w-full sm:w-40 h-10 pl-9 pr-8 bg-white border border-gray-200 rounded-xl text-[13px] font-medium text-gray-600 appearance-none focus:outline-none focus:border-primary"
+                                    onchange="this.form.submit()">
+                                    <option value="" {{ request('sent_time') == '' ? 'selected' : '' }}>Sent Time
+                                    </option>
+                                    <option value="7" {{ request('sent_time') == '7' ? 'selected' : '' }}>Last 7
+                                        Days</option>
+                                    <option value="30" {{ request('sent_time') == '30' ? 'selected' : '' }}>Last 30
+                                        Days</option>
+                                </select>
+                                <i data-lucide="calendar"
+                                    class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                                <i data-lucide="chevron-down"
+                                    class="w-3.5 h-3.5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                            </div>
+
+                            <div class="relative flex-1 min-w-[200px] w-full">
+                                <i data-lucide="search"
+                                    class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                                <input type="text" name="search" value="{{ request('search') }}"
+                                    placeholder="Subject/Name/Email"
+                                    class="w-full h-10 pl-9 pr-3 bg-white border border-gray-200 rounded-xl text-[13px] font-medium text-gray-700 focus:outline-none focus:border-primary placeholder-gray-400">
+                            </div>
+
+                            <button type="submit"
+                                class="bg-primary text-white text-[13px] font-bold px-4 h-10 rounded-xl hover:bg-primaryHover transition-colors">
+                                Search
+                            </button>
+
+                            <a href="{{ route('dashboard') }}#panel-inbox"
+                                class="text-primary text-[13px] font-bold hover:text-primaryHover transition-colors px-2">Clear
+                                All</a>
+
+                        </form> --}}
 
                         <div class="flex-1 overflow-x-auto hide-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[800px]">
@@ -175,36 +214,6 @@
                                 <tbody>
 
                                     @forelse($enquiries as $key => $enquiry)
-                                        {{-- @php
-
-                                            if ($enquiry->product) {
-                                                $title = $enquiry->product->product_name;
-
-                                                $images = json_decode($enquiry->product->image, true);
-
-                                                $image = !empty($images[0])
-                                                    ? asset('uploads/products/' . $images[0])
-                                                    : asset('assets/no-image.png');
-
-                                                $type = 'Product';
-                                            } elseif ($enquiry->service) {
-                                                $title = $enquiry->service->service_name;
-
-                                                $image = asset(
-                                                    'uploads/service/images/' . $enquiry->service->service_img,
-                                                );
-
-                                                $type = 'Service';
-                                            } else {
-                                                $title = 'Item Deleted';
-
-                                                $image = asset('assets/no-image.png');
-
-                                                $type = '-';
-                                            }
-
-                                        @endphp --}}
-
                                         @php
                                             if ($enquiry->product) {
                                                 $title = $enquiry->product->product_name;
@@ -347,7 +356,7 @@
                             </div>
                         </div>
 
-                        <div
+                        {{-- <div
                             class="border-t border-gray-100 p-4 bg-white flex items-center justify-between text-[13px] text-gray-500">
                             <span id="entries-count">Showing 3 entries</span>
                             <div class="flex gap-1">
@@ -356,6 +365,45 @@
                                 <button class="px-3 py-1.5 bg-primary text-white rounded-lg shadow-sm">1</button>
                                 <button
                                     class="px-3 py-1.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">Next</button>
+                            </div>
+                        </div> --}}
+
+                        <div
+                            class="border-t border-gray-100 p-4 bg-white flex items-center justify-between text-[13px] text-gray-500">
+                            <span>
+                                Showing {{ $sendenquiries->firstItem() ?? 0 }}
+                                to {{ $sendenquiries->lastItem() ?? 0 }}
+                                of {{ $sendenquiries->total() }} entries
+                            </span>
+
+                            <div class="flex gap-1">
+                                @if ($sendenquiries->onFirstPage())
+                                    <button
+                                        class="px-3 py-1.5 border border-gray-200 rounded-lg text-gray-400 cursor-not-allowed"
+                                        disabled>Prev</button>
+                                @else
+                                    <a href="{{ $sendenquiries->previousPageUrl() }}#panel-sent"
+                                        class="px-3 py-1.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">Prev</a>
+                                @endif
+
+                                @foreach ($sendenquiries->getUrlRange(1, $sendenquiries->lastPage()) as $page => $url)
+                                    @if ($page == $sendenquiries->currentPage())
+                                        <button
+                                            class="px-3 py-1.5 bg-primary text-white rounded-lg shadow-sm">{{ $page }}</button>
+                                    @else
+                                        <a href="{{ $url }}#panel-sent"
+                                            class="px-3 py-1.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">{{ $page }}</a>
+                                    @endif
+                                @endforeach
+
+                                @if ($sendenquiries->hasMorePages())
+                                    <a href="{{ $sendenquiries->nextPageUrl() }}#panel-sent"
+                                        class="px-3 py-1.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">Next</a>
+                                @else
+                                    <button
+                                        class="px-3 py-1.5 border border-gray-200 rounded-lg text-gray-400 cursor-not-allowed"
+                                        disabled>Next</button>
+                                @endif
                             </div>
                         </div>
 
@@ -429,7 +477,7 @@
                             </span>
                         </div>
 
-                        <div
+                        {{-- <div
                             class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-col sm:flex-row flex-wrap gap-3 items-center">
                             <div class="relative w-full sm:w-auto">
                                 <select
@@ -467,7 +515,38 @@
                             <button
                                 class="text-primary text-[13px] font-bold hover:text-primaryHover transition-colors px-2">Clear
                                 All</button>
-                        </div>
+                        </div> --}}
+
+                        {{-- <form method="GET" action="{{ route('user.dashboard') }}">
+                            <div class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-wrap gap-3">
+
+                                <select name="date_filter" class="w-full sm:w-40 h-10 border rounded-xl">
+                                    <option value="">Sent Time</option>
+                                    <option value="7days" {{ request('date_filter') == '7days' ? 'selected' : '' }}>
+                                        Last 7 Days
+                                    </option>
+                                    <option value="30days" {{ request('date_filter') == '30days' ? 'selected' : '' }}>
+                                        Last 30 Days
+                                    </option>
+                                    <option value="year" {{ request('date_filter') == 'year' ? 'selected' : '' }}>
+                                        This Year
+                                    </option>
+                                </select>
+
+                                <input type="text" name="search" value="{{ request('search') }}"
+                                    placeholder="Search Supplier/Product..."
+                                    class="flex-1 h-10 border rounded-xl px-3">
+
+                                <button type="submit" class="bg-primary text-white px-4 rounded-xl">
+                                    Filter
+                                </button>
+
+                                <a href="{{ route('user.dashboard') }}" class="text-primary font-bold px-2">
+                                    Clear All
+                                </a>
+
+                            </div>
+                        </form> --}}
 
                         <div class="flex-1 overflow-x-auto hide-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[800px]">
@@ -499,9 +578,11 @@
                                             } elseif ($enquiry->service) {
                                                 $title = $enquiry->service->service_name;
 
-                                                $image = asset(
-                                                    'uploads/service/images/' . $enquiry->service->service_img,
-                                                );
+                                                $serviceImages = json_decode($enquiry->service->service_img, true);
+
+                                                $image = !empty($serviceImages[0])
+                                                    ? asset('uploads/service/images/' . $serviceImages[0])
+                                                    : asset('assets/no-image.png');
 
                                                 $type = 'Service Enquiry';
                                             } else {
@@ -604,11 +685,11 @@
 
                                                 <a href="#"
                                                     onclick="openChat(
-        {{ $enquiry->id }},
-        '{{ addslashes($title) }}',
-        '{{ addslashes($enquiry->receiver?->company_name ?? ($enquiry->receiver?->name ?? 'Supplier')) }}',
-        '{{ $image }}'
-    )"
+                                                {{ $enquiry->id }},
+                                                '{{ addslashes($title) }}',
+                                                '{{ addslashes($enquiry->receiver?->company_name ?? ($enquiry->receiver?->name ?? 'Supplier')) }}',
+                                                '{{ $image }}'
+                                            )"
                                                     class="inline-flex items-center gap-2 bg-slate-100 px-4 py-2.5 rounded-xl text-[13px] font-bold">
 
                                                     <i data-lucide="eye" class="w-4 h-4"></i>
@@ -958,7 +1039,11 @@
 
                     </div>
 
-
+                    @if ($sendenquiries->isEmpty())
+                        <div class="p-4 mb-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                            No enquiries found for the selected filters.
+                        </div>
+                    @endif
 
                     <div id="panel-quotes"
                         class="dashboard-panel bg-white rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden hidden flex-col h-full min-h-[600px]">
@@ -1513,10 +1598,11 @@
 
         }, 3000);
     </script> --}}
+
     <script>
         let currentEnquiryId = null;
         const markReadUrl = "{{ route('chat.markRead', ':id') }}";
-            // alert(21);
+
         function openChat(enquiryId, itemName, supplierName, imageUrl) {
 
             currentEnquiryId = enquiryId;
@@ -1531,6 +1617,7 @@
 
             // ✅ Fixed: build markUrl correctly (was using undefined 'url')
             let markUrl = markReadUrl.replace(':id', enquiryId);
+            // alert(21);
 
             fetch(markUrl, {
                     method: 'POST',
@@ -1542,7 +1629,25 @@
                 })
                 .then(res => res.json())
                 .then(data => {
+
                     console.log('Mark read:', data);
+
+                    document.querySelector(`#unread-${enquiryId}`)?.remove();
+
+                    let badge = document.getElementById('message-count-badge');
+
+                    if (badge) {
+
+                        if (data.count > 0) {
+
+                            badge.innerText = data.count;
+
+                        } else {
+
+                            badge.remove();
+
+                        }
+                    }
                 })
                 .catch(err => console.error('Mark read error:', err));
 
@@ -1618,6 +1723,7 @@
             }
         }, 3000);
     </script>
+
 </body>
 
 </html>

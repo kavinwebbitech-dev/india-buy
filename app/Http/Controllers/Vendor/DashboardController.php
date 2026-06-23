@@ -99,6 +99,7 @@ public function manufacturerDashboard(Request $request)
         'receiver'
     ])
     ->where('sender_id', $userId)
+    ->where('is_read', 0)
     ->latest()
     ->paginate(10);
     return view('vendor.manufacturer.dashboard', compact('enquiries','sendenquiries'));

@@ -310,7 +310,7 @@ class RelastateController extends Controller
             if ($request->hasFile('property_image')) {
                 foreach ($request->file('property_image') as $image) {
                     $name = time() . '_' . rand(1000, 9999) . '.' . $image->extension();
-                    $image->move(public_path('uploads/realestate/images'), $name);
+                    $image->move(public_path('uploads/relastate/images'), $name);
                     $propertyImages[] = $name;
                 }
             }
@@ -320,7 +320,7 @@ class RelastateController extends Controller
             if ($request->hasFile('documents')) {
                 foreach ($request->file('documents') as $file) {
                     $name = time() . '_' . rand(1000, 9999) . '.' . $file->extension();
-                    $file->move(public_path('uploads/realestate/documents'), $name);
+                    $file->move(public_path('uploads/relastate/documents'), $name);
                     $documents[] = $name;
                 }
             }
@@ -692,7 +692,7 @@ class RelastateController extends Controller
 
             // Delete only images the user removed
             foreach (array_diff($oldDbImages, $propertyImages) as $removed) {
-                $path = public_path('uploads/realestate/images/' . $removed);
+                $path = public_path('uploads/relastate/images/' . $removed);
                 if (file_exists($path)) {
                     unlink($path);
                 }
@@ -702,7 +702,7 @@ class RelastateController extends Controller
             if ($request->hasFile('property_image')) {
                 foreach ($request->file('property_image') as $image) {
                     $name = time() . '_' . rand(1000, 9999) . '.' . $image->getClientOriginalExtension();
-                    $image->move(public_path('uploads/realestate/images'), $name);
+                    $image->move(public_path('uploads/relastate/images'), $name);
                     $propertyImages[] = $name;
                 }
             }
@@ -717,7 +717,7 @@ class RelastateController extends Controller
 
             // Delete only documents the user removed
             foreach (array_diff($oldDbDocuments, $documents) as $removed) {
-                $path = public_path('uploads/realestate/documents/' . $removed);
+                $path = public_path('uploads/relastate/documents' . $removed);
                 if (file_exists($path)) {
                     unlink($path);
                 }
@@ -727,7 +727,7 @@ class RelastateController extends Controller
             if ($request->hasFile('documents')) {
                 foreach ($request->file('documents') as $file) {
                     $name = time() . '_' . rand(1000, 9999) . '.' . $file->getClientOriginalExtension();
-                    $file->move(public_path('uploads/realestate/documents'), $name);
+                    $file->move(public_path('uploads/relastate/documents'), $name);
                     $documents[] = $name;
                 }
             }
@@ -803,11 +803,11 @@ class RelastateController extends Controller
 
 
 
-            $datasheets = json_decode($property->datasheet, true) ?? [];
+            $datasheets = json_decode($property->documents, true) ?? [];
 
             foreach ($datasheets as $sheet) {
 
-                $path = public_path('uploads/relastate/datasheet/' . $sheet);
+                $path = public_path('uploads/relastate/documents/' . $sheet);
 
                 if (file_exists($path)) {
                     unlink($path);
