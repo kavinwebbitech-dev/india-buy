@@ -59,7 +59,7 @@
 
 
                     {{-- VENDOR TYPE --}}
-                    <div class="mb-5">
+                    {{-- <div class="mb-5">
 
                         <label class="block text-[13px] font-bold text-gray-700 mb-2">
 
@@ -98,7 +98,7 @@
 
                         @enderror
 
-                    </div>
+                    </div> --}}
 
 
                     {{-- EMAIL --}}

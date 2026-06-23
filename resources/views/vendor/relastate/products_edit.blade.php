@@ -288,7 +288,7 @@
                                 @foreach ($images as $img)
                                     <div
                                         class="border rounded-2xl overflow-hidden shadow-sm bg-white p-1 relative existing-image">
-                                        <img src="{{ asset('uploads/realestate/images/' . $img) }}"
+                                        <img src="{{ asset('uploads/relastate/images/' . $img) }}"
                                             class="w-full h-32 object-cover rounded-xl">
                                         <div class="p-2 text-xs text-gray-600 truncate">{{ $img }}</div>
                                         <button type="button"
@@ -326,7 +326,7 @@
                                         <div class="overflow-hidden flex-1">
                                             <div class="text-sm font-medium text-gray-800 truncate">
                                                 {{ $doc }}</div>
-                                            <a href="{{ asset('uploads/realestate/documents/' . $doc) }}"
+                                            <a href="{{ asset('uploads/relastate/documents/' . $doc) }}"
                                                 target="_blank" class="text-xs text-indigo-600 hover:underline">View
                                                 File</a>
                                         </div>

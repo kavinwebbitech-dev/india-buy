@@ -1,4 +1,8 @@
-@include('vendor.relastate.Layout.head')
+
+@include('vendor.Layout.head')
+
+@include('vendor.Layout.top_bar')
+@include('vendor.Layout.main_header')
 
 @php
 
@@ -8,18 +12,13 @@ use App\Models\BusinessType;
 
 @endphp
 
-<body class="text-gray-800 antialiased font-sans bg-slate-50">
-
-@include('vendor.relastate.Layout.top_bar')
-
-@include('vendor.relastate.Layout.main_header')
 
 <div class="min-h-screen py-8">
 
     <div class="max-w-7xl mx-auto px-4">
 
-        @include('vendor.relastate.Layout.service_menubar')
-
+        @include('vendor.Layout.menu_bar')
+        
         <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-6">
 
             {{-- HEADER --}}
@@ -92,14 +91,6 @@ use App\Models\BusinessType;
             <div class="mb-10 border border-slate-200 rounded-3xl overflow-hidden shadow-sm bg-white">
 
                 {{-- COVER IMAGE --}}
-                <div class="h-72 w-full bg-slate-200 overflow-hidden relative">
-
-                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-                             class="w-full h-full object-cover">
-
-                    <div class="absolute inset-0 bg-black/30"></div>
-
-                </div>
 
                 {{-- COMPANY PROFILE --}}
                 <div class="px-6 pb-8 relative flex flex-col items-center text-center -mt-16">
@@ -416,7 +407,7 @@ use App\Models\BusinessType;
 
                             @foreach($datasheets as $file)
 
-                                <a href="{{ asset('uploads/relastate/datasheet/'.$file) }}"
+                                <a href="{{ asset('uploads/relastate/documents/'.$file) }}"
                                    target="_blank"
                                    class="inline-flex items-center gap-2 bg-primary text-white px-5 py-3 rounded-xl font-semibold hover:opacity-90 transition">
 
@@ -453,7 +444,7 @@ use App\Models\BusinessType;
 
                             <div class="rounded-2xl overflow-hidden border border-slate-200 shadow-sm">
 
-                                <img src="{{ asset('uploads/realestate/images/'.$image) }}"
+                                <img src="{{ asset('uploads/relastate/images/'.$image) }}"
                                      class="w-full h-48 object-cover hover:scale-105 transition duration-300">
 
                             </div>

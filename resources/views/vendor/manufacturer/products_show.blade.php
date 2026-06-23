@@ -64,17 +64,7 @@ $productDetails = json_decode($product->product_details, true);
                 </div>
 
                 {{-- COVER IMAGE --}}
-                <div class="w-full h-72 rounded-2xl overflow-hidden bg-slate-100 mb-8">
-
-                   
-
-                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                             class="w-full h-full object-cover">
-
-                   
-
-                </div>
-
+                
                 <div class="grid lg:grid-cols-[280px_1fr] gap-8">
 
                     {{-- COMPANY LOGO --}}

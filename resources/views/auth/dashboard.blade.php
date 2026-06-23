@@ -1598,10 +1598,11 @@
 
         }, 3000);
     </script> --}}
+
     <script>
         let currentEnquiryId = null;
         const markReadUrl = "{{ route('chat.markRead', ':id') }}";
-        // alert(21);
+
         function openChat(enquiryId, itemName, supplierName, imageUrl) {
 
             currentEnquiryId = enquiryId;
@@ -1616,6 +1617,7 @@
 
             // ✅ Fixed: build markUrl correctly (was using undefined 'url')
             let markUrl = markReadUrl.replace(':id', enquiryId);
+            // alert(21);
 
             fetch(markUrl, {
                     method: 'POST',
@@ -1627,7 +1629,25 @@
                 })
                 .then(res => res.json())
                 .then(data => {
+
                     console.log('Mark read:', data);
+
+                    document.querySelector(`#unread-${enquiryId}`)?.remove();
+
+                    let badge = document.getElementById('message-count-badge');
+
+                    if (badge) {
+
+                        if (data.count > 0) {
+
+                            badge.innerText = data.count;
+
+                        } else {
+
+                            badge.remove();
+
+                        }
+                    }
                 })
                 .catch(err => console.error('Mark read error:', err));
 
@@ -1703,6 +1723,7 @@
             }
         }, 3000);
     </script>
+
 </body>
 
 </html>

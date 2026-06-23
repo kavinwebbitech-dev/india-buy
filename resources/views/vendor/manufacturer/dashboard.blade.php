@@ -114,7 +114,7 @@
                                         @php
                                             $hasUnread = \App\Models\Message::where('enquiry_id', $enquiry->id)
                                                 ->where('receiver_id', Auth::guard('vendor')->id())
-                                                ->where('is_read', 0)
+                                                ->where('is_read', 1)
                                                 ->exists();
                                         @endphp
 
@@ -464,15 +464,15 @@
                                                     <div
                                                         class="w-10 h-10 rounded-full bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg">
 
-                                                        {{ strtoupper(substr($enquiry->receiver->company_name ?? 'S', 0, 1)) }}
+                                                        {{ strtoupper(substr($enquiry->receiver->name  ?? 'S', 0, 1)) }}
 
                                                     </div>
 
                                                     <div>
 
                                                         <p class="font-bold text-gray-900 leading-tight">
-
-                                                            {{ $enquiry->receiver->company_name ?? 'Unknown Supplier' }}
+                                                           
+                                                            {{ $enquiry->receiver->name ?? 'Unknown Supplier' }}
 
                                                         </p>
 

@@ -12,6 +12,8 @@ use App\Models\SubCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Service;
+use App\Models\Enquiry;
+
 
 
 class ServiceController extends Controller
@@ -19,7 +21,9 @@ class ServiceController extends Controller
 
     public function serviceDashboard()
     {
-        return view('vendor.service.dashboard');
+        $enquiries = Enquiry::latest()->paginate(10);
+
+        return view('vendor.service.dashboard', compact('enquiries'));
     }
 
     public function Profile()
@@ -255,7 +259,6 @@ class ServiceController extends Controller
             DB::commit();
 
             return redirect()->route('service.product.list')->with('success', 'Service Added Successfully');
-
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->withInput()->with('error', 'Something went wrong: ' . $e->getMessage());
@@ -323,7 +326,6 @@ class ServiceController extends Controller
                 $datasheetName     = time() . '_datasheet.' . $datasheet->getClientOriginalExtension();
                 $datasheet->move(public_path('uploads/service/datasheet'), $datasheetName);
                 $service->datasheet = $datasheetName;
-
             } elseif (!$request->has('keep_datasheet')) {
                 // User clicked remove button → delete file and clear column
                 if ($service->datasheet && file_exists(public_path('uploads/service/datasheet/' . $service->datasheet))) {
@@ -399,7 +401,6 @@ class ServiceController extends Controller
             DB::commit();
 
             return redirect()->route('service.product.list')->with('success', 'Service Updated Successfully');
-
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->withInput()->with('error', 'Something went wrong: ' . $e->getMessage());
@@ -431,7 +432,6 @@ class ServiceController extends Controller
             $service->delete();
 
             return redirect()->back()->with('success', 'Service Deleted Successfully');
-
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

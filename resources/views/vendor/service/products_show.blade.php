@@ -133,22 +133,10 @@ $services = Service::where('vendor_id', $vendor->id)
             <div class="mb-10 border border-slate-200 rounded-3xl overflow-hidden shadow-sm bg-white">
 
                 {{-- COVER IMAGE --}}
-                <div class="h-64 w-full bg-slate-200 relative overflow-hidden">
-
-                   
-
-                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-                             class="w-full h-full object-cover">
-
-                    
-
-                    <div class="absolute inset-0 bg-black/30"></div>
-
-                </div>
 
 
                 {{-- COMPANY PROFILE --}}
-                <div class="px-6 pb-8 relative flex flex-col items-center text-center -mt-16">
+                <div class="px-6 pb-8 relative flex flex-col items-center text-center mt-16">
 
                     {{-- COMPANY LOGO --}}
                     <div class="w-32 h-32 rounded-3xl border-4 border-white bg-white shadow-lg overflow-hidden relative z-10 mb-4">

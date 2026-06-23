@@ -624,13 +624,13 @@ public function sendForgotOtp(Request $request)
 {
     $request->validate([
 
-        'vendor_type_id' => 'required',
+        // 'vendor_type_id' => 'required',
         'email'          => 'required|email',
 
     ]);
 
     $vendor = Vendor::where('email', $request->email)
-        ->where('vendor_type_id', $request->vendor_type_id)
+        // ->where('vendor_type_id', $request->vendor_type_id)
         ->first();
 
     if (!$vendor) {
@@ -650,12 +650,12 @@ public function sendForgotOtp(Request $request)
     $vendor->save();
 
     // SAVE SESSION
-    session([
+    // session([
 
-        'forgot_vendor_id'   => $vendor->id,
-        'forgot_vendor_type' => $vendor->vendor_type_id,
+    //     'forgot_vendor_id'   => $vendor->id,
+    //     'forgot_vendor_type' => $vendor->vendor_type_id,
 
-    ]);
+    // ]);
 
     // SEND MAIL
     Mail::raw(
