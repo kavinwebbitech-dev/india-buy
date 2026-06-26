@@ -48,7 +48,7 @@
                     class="flex flex-col items-center text-gray-600 hover:text-primary transition-colors gap-1 group">
                     <i data-lucide="megaphone"
                         class="w-5 h-5 text-gray-500 group-hover:text-primary transition-colors"></i>
-                    <span class="whitespace-nowrap">Post RFQwww</span>
+                    <span class="whitespace-nowrap">Post RFQ</span>
                 </a>
                 {{-- <a href="{{ route('user.dashboard') }}"
                     class="flex flex-col items-center text-gray-600 hover:text-primary transition-colors gap-1 group">

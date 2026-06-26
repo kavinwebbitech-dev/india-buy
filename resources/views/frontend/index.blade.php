@@ -359,6 +359,7 @@
 
         </section>
 
+        
         <section class="mt-8 mb-8 relative group bg-white p-5 rounded-2xl shadow-sm border border-gray-200">
 
             <div class="flex justify-between items-center mb-5 px-1">
@@ -447,6 +448,96 @@
 
         </section>
 
+          @foreach ($businessTypes as $businessType)
+            <section class="mt-8 mb-6">
+
+                <div class="flex flex-col overflow-hidden bg-white p-0 rounded-2xl shadow-sm border border-gray-200">
+
+                    {{-- LEFT BUSINESS TYPE BLOCK --}}
+                    <div class="w-full relative flex flex-col justify-start overflow-hidden group rounded-t-2xl shrink-0">
+
+                        {{-- background image (optional fallback) --}}
+                        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d"
+                            class="absolute inset-0 w-full h-full object-cover">
+
+                        <div class="absolute inset-0 bg-black/10"></div>
+
+                        <div class="relative z-10 bg-white/90 p-4 rounded-t-2xl flex justify-between">
+                            <h3 class="text-[20px] font-semibold text-[#1a1a1a]">
+                                {{ $businessType->business_name }}
+                            </h3>
+                            <a href="{{ route('bussiness_product_list', $businessType->id) }}"
+                                class="bg-[#e64545] hover:bg-[#cc3b3b] text-white text-[13px] font-medium py-1.5 px-4 rounded-sm transition-colors inline-block">
+                                Source Now
+                            </a>
+                        </div>
+
+                    </div>
+
+                    {{-- RIGHT CATEGORY BLOCK --}}
+                    <div class="w-full grid grid-cols-2 md:grid-cols-4">
+
+                        @foreach ($businessType->categories as $category)
+                            <a href="{{ route('category_product_list', $category->id) }}"
+                                class="bg-white  p-4 sm:p-5 border border-slate-200 hover:border-primary/40 shadow-sm hover:shadow transition-all group flex flex-col h-full min-h-[240px]">
+
+                                {{-- CONTENT SWITCH --}}
+                                @if ($category->products->count() > 0)
+                                    {{-- 🟢 SHOW PRODUCT --}}
+                                    @php
+                                        $product = $category->products[0];
+                                        $images = json_decode($product->image ?? '[]', true);
+                                    @endphp
+
+                                    <div class="flex justify-between items-start w-full relative z-10 gap-2 mb-3">
+                                        <h4
+                                            class="text-[13px] sm:text-[14px] font-bold text-slate-700 group-hover:text-primary leading-snug line-clamp-3">
+                                            {{ $product->product_name }}
+                                        </h4>
+                                        <div
+                                            class="w-7 h-7 shrink-0 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-primary transition-colors">
+                                            <i data-lucide="arrow-up-right"
+                                                class="w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-colors"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-auto h-26 sm:h-36 w-full flex items-end justify-center shrink-0">
+                                        @if (!empty($images[0]))
+                                            <img src="{{ asset('uploads/products/' . $images[0]) }}"
+                                                class="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-300">
+                                        @endif
+                                    </div>
+                                @else
+                                    {{-- 🔵 FALLBACK CATEGORY --}}
+                                    <div class="flex justify-between items-start w-full relative z-10 gap-2 mb-3">
+                                        <h4
+                                            class="text-[13px] sm:text-[14px] font-bold text-slate-700 group-hover:text-primary leading-snug line-clamp-3">
+                                            {{ $category->category_name }}
+                                        </h4>
+                                        <div
+                                            class="w-7 h-7 shrink-0 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-primary transition-colors">
+                                            <i data-lucide="arrow-up-right"
+                                                class="w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-colors"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-auto h-26 sm:h-36 w-full flex items-end justify-center shrink-0">
+                                        <img src="{{ asset('uploads/categories/' . $category->image) }}"
+                                            class="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-300">
+                                    </div>
+                                @endif
+
+                            </a>
+                        @endforeach
+
+                    </div>
+
+                </div>
+
+            </section>
+        @endforeach
+
+
 
         <section class="mt-8 mb-8 relative group bg-white p-5 rounded-2xl shadow-sm border border-gray-200">
 
@@ -533,98 +624,7 @@
             </button>
 
         </section>
-
-
-        @foreach ($businessTypes as $businessType)
-            <section class="mt-8 mb-6">
-
-                <div class="flex flex-col lg:flex-row gap-2 bg-white p-0 rounded-2xl shadow-sm border border-gray-200">
-
-                    {{-- LEFT BUSINESS TYPE BLOCK --}}
-                    <div
-                        class="lg:w-1/4 w-full p-6 pt-8 relative flex flex-col justify-start min-h-[320px] overflow-hidden group rounded-2xl shrink-0">
-
-                        {{-- background image (optional fallback) --}}
-                        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d"
-                            class="absolute inset-0 w-full h-full object-cover">
-
-                        <div class="absolute inset-0 bg-black/30"></div>
-
-                        <div class="relative z-10 bg-white/90 p-4 rounded-2xl">
-                            <h3 class="text-[20px] font-semibold text-[#1a1a1a] mb-4">
-                                {{ $businessType->business_name }}
-                            </h3>
-                            <a href="{{ route('bussiness_product_list', $businessType->id) }}"
-                                class="bg-[#e64545] hover:bg-[#cc3b3b] text-white text-[13px] font-medium py-1.5 px-4 rounded-sm transition-colors inline-block">
-                                Source Now
-                            </a>
-                        </div>
-
-                    </div>
-
-                    {{-- RIGHT CATEGORY BLOCK --}}
-                    <div class="lg:w-3/4 w-full grid grid-cols-2 md:grid-cols-4 gap-2 p-3 sm:p-4">
-
-                        @foreach ($businessType->categories as $category)
-                            <a href="{{ route('category_product_list', $category->id) }}"
-                                class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 hover:border-primary/40 shadow-sm hover:shadow transition-all group flex flex-col h-full min-h-[190px]">
-
-                                {{-- CONTENT SWITCH --}}
-                                @if ($category->products->count() > 0)
-                                    {{-- 🟢 SHOW PRODUCT --}}
-                                    @php
-                                        $product = $category->products[0];
-                                        $images = json_decode($product->image ?? '[]', true);
-                                    @endphp
-
-                                    <div class="flex justify-between items-start w-full relative z-10 gap-2 mb-3">
-                                        <h4
-                                            class="text-[13px] sm:text-[14px] font-bold text-slate-700 group-hover:text-primary leading-snug line-clamp-3">
-                                            {{ $product->product_name }}
-                                        </h4>
-                                        <div
-                                            class="w-7 h-7 shrink-0 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-primary transition-colors">
-                                            <i data-lucide="arrow-up-right"
-                                                class="w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-colors"></i>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-auto h-20 sm:h-24 w-full flex items-end justify-center shrink-0">
-                                        @if (!empty($images[0]))
-                                            <img src="{{ asset('uploads/products/' . $images[0]) }}"
-                                                class="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-300">
-                                        @endif
-                                    </div>
-                                @else
-                                    {{-- 🔵 FALLBACK CATEGORY --}}
-                                    <div class="flex justify-between items-start w-full relative z-10 gap-2 mb-3">
-                                        <h4
-                                            class="text-[13px] sm:text-[14px] font-bold text-slate-700 group-hover:text-primary leading-snug line-clamp-3">
-                                            {{ $category->category_name }}
-                                        </h4>
-                                        <div
-                                            class="w-7 h-7 shrink-0 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-primary transition-colors">
-                                            <i data-lucide="arrow-up-right"
-                                                class="w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-colors"></i>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-auto h-20 sm:h-24 w-full flex items-end justify-center shrink-0">
-                                        <img src="{{ asset('uploads/categories/' . $category->image) }}"
-                                            class="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-300">
-                                    </div>
-                                @endif
-
-                            </a>
-                        @endforeach
-
-                    </div>
-
-                </div>
-
-            </section>
-        @endforeach
-
+ 
         <style>
             .swiper-pagination-bullet-active {
                 background-color: var(--color-primary, #e64545) !important;
