@@ -1,6 +1,5 @@
 @include('vendor.Layout.head')
 
-<body class="text-gray-800 antialiased font-sans bg-slate-50">
 
     {{-- TOP BAR --}}
     {{-- @include('vendor.Layout.top_bar') --}}
@@ -72,29 +71,6 @@
                             </div>
                         </div>
 
-                        {{-- <div
-                            class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-col sm:flex-row flex-wrap gap-3 items-center">
-                            <div class="relative w-full sm:w-auto">
-                                <select
-                                    class="w-full sm:w-40 h-10 pl-9 pr-8 bg-white border border-gray-200 rounded-xl text-[13px] font-medium text-gray-600 appearance-none focus:outline-none focus:border-primary">
-                                    <option>Sent Time</option>
-                                    <option>Last 7 Days</option>
-                                </select>
-                                <i data-lucide="calendar"
-                                    class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                                <i data-lucide="chevron-down"
-                                    class="w-3.5 h-3.5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                            </div>
-                            <div class="relative flex-1 min-w-[200px] w-full">
-                                <i data-lucide="search"
-                                    class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-                                <input type="text" placeholder="Subject/Name/Email"
-                                    class="w-full h-10 pl-9 pr-3 bg-white border border-gray-200 rounded-xl text-[13px] font-medium text-gray-700 focus:outline-none focus:border-primary placeholder-gray-400">
-                            </div>
-                            <button
-                                class="text-primary text-[13px] font-bold hover:text-primaryHover transition-colors px-2">Clear
-                                All</button>
-                        </div> --}}
 
                         <div class="flex-1 overflow-x-auto hide-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[800px]">
@@ -362,45 +338,7 @@
                             </span>
                         </div>
 
-                        {{-- <div
-                            class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-col sm:flex-row flex-wrap gap-3 items-center">
-                            <div class="relative w-full sm:w-auto">
-                                <select
-                                    class="w-full sm:w-40 h-10 pl-9 pr-8 bg-white border border-gray-200 rounded-xl text-[13px] font-medium text-gray-600 appearance-none focus:outline-none focus:border-primary">
-                                    <option>Sent Time</option>
-                                    <option>Last 7 Days</option>
-                                    <option>Last 30 Days</option>
-                                    <option>This Year</option>
-                                </select>
-                                <i data-lucide="calendar"
-                                    class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                                <i data-lucide="chevron-down"
-                                    class="w-3.5 h-3.5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                            </div>
-
-                            <div class="relative w-full sm:w-auto">
-                                <select
-                                    class="w-full sm:w-40 h-10 pl-3 pr-8 bg-white border border-gray-200 rounded-xl text-[13px] font-medium text-gray-600 appearance-none focus:outline-none focus:border-primary">
-                                    <option>Status</option>
-                                    <option>Read by Supplier</option>
-                                    <option>Unread</option>
-                                    <option>Replied</option>
-                                </select>
-                                <i data-lucide="chevron-down"
-                                    class="w-3.5 h-3.5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                            </div>
-
-                            <div class="relative flex-1 min-w-[200px] w-full">
-                                <i data-lucide="search"
-                                    class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-                                <input type="text" placeholder="Search Supplier/Product..."
-                                    class="w-full h-10 pl-9 pr-3 bg-white border border-gray-200 rounded-xl text-[13px] font-medium text-gray-700 focus:outline-none focus:border-primary placeholder-gray-400">
-                            </div>
-
-                            <button
-                                class="text-primary text-[13px] font-bold hover:text-primaryHover transition-colors px-2">Clear
-                                All</button>
-                        </div> --}}
+                       
 
                         <div class="flex-1 overflow-x-auto hide-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[800px]">
@@ -758,6 +696,4 @@
     {{-- FOOTER --}}
     @include('vendor.Layout.footer')
 
-</body>
 
-</html>

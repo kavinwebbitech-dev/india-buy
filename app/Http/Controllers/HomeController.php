@@ -81,33 +81,56 @@ class HomeController extends Controller
     // }
     public function products(Request $request)
     {
-        $query = Product::with('vendor')->where('status', 1)->latest();
+        $query = Product::with(['vendor','categoryData','subCategoryData'])
+            ->where('status',1);
 
         // Product Search
         if ($request->filled('search')) {
             $query->where('product_name', 'like', '%' . $request->search . '%');
         }
 
-        // Supplier City Filter
+        // Supplier City
         if ($request->filled('city')) {
             $query->whereHas('vendor', function ($q) use ($request) {
                 $q->whereIn('city', $request->city);
             });
         }
 
+        // Category Filter
+        if ($request->filled('category')) {
+            $query->whereIn('category_id', $request->category);
+        }
+
+        // Sub Category Filter
+        if ($request->filled('sub_category')) {
+            $query->whereIn('sub_category_id', $request->sub_category);
+        }
+
         $products = $query->latest()
             ->paginate(12)
             ->withQueryString();
 
-        // Cities List
-        $cities = \App\Models\Vendor::select('city')
+        // Cities
+        $cities = Vendor::select('city')
             ->whereNotNull('city')
             ->distinct()
             ->pluck('city');
 
+        // Categories
+        $categories = Category::where('status',1)
+            ->orderBy('category_name')
+            ->get();
+
+        // Sub Categories
+        $subCategories = SubCategory::where('status',1)
+            ->orderBy('sub_category_name')
+            ->get();
+
         return view('frontend.products', compact(
             'products',
-            'cities'
+            'cities',
+            'categories',
+            'subCategories'
         ));
     }
 
@@ -126,12 +149,17 @@ class HomeController extends Controller
         // Get category using category_id from subcategory
         $category = Category::find($subcategory->category_id);
 
+        // Fetch sibling subcategories under the same parent category to show on left sidebar
+        $subcategories = SubCategory::where('category_id', $subcategory->category_id)->get();
+
         // Get products
         $products = Product::where('sub_category_id', $id)->paginate(12);
 
+        // compact()-kul 'subcategories' variable-aiyum sethu pass pannunga
         return view('frontend.subcategory_products', compact(
             'subcategory',
             'category',
+            'subcategories',
             'products'
         ));
     }
@@ -213,25 +241,49 @@ class HomeController extends Controller
     // }
     public function servicelist(Request $request)
     {
-        $services = Service::where('status', 1);
+        $query = Service::where('status', 1);
 
         if ($request->filled('search')) {
-            $services->where('service_name', 'like', '%' . $request->search . '%');
+            $query->where('service_name', 'like', '%' . $request->search . '%');
         }
 
-        $services = $services->latest()->paginate(12);
+        if ($request->filled('price_type')) {
+            $query->where('price_type', $request->price_type);
+        }
+
+        if ($request->filled('category_id')) {
+            $query->where('category', $request->category_id);
+        }
+
+        if ($request->filled('sub_category_id')) {
+            $query->where('subcategory', $request->sub_category_id);
+        }
+
+        $services = $query->latest()
+            ->paginate(12)
+            ->withQueryString();
+
+        $categories = Category::with(['subcategories' => function($q) {
+                $q->where('status', 1);
+            }])
+            ->where('vendor_type_id', 2)
+            ->where('status', 1)
+            ->get();
 
         $latestRealEstates = RealEstate::where('status', 1)
             ->latest()
-            ->take(5)
+            
             ->get();
 
         return view(
             'frontend.service_list',
-            compact('services', 'latestRealEstates')
+            compact(
+                'services',
+                'categories',
+                'latestRealEstates'
+            )
         );
     }
-
     public function rfqlist(Request $request)
     {
         if (!auth()->check()) {
@@ -527,34 +579,68 @@ class HomeController extends Controller
     }
 
 
+    // public function categoryproductlist($id)
+    // {
+    //     $category = Category::with('subcategories')->findOrFail($id);
+
+    //     $categories = Category::where('status', 1)->get();
+
+    //     $products = Product::with(['vendor'])
+    //         ->where('status', 1)
+    //         ->where(function ($q) use ($id) {
+    //             $q->where('category_id', $id)
+    //                 ->orWhereIn('sub_category_id', function ($sub) use ($id) {
+    //                     $sub->select('id')
+    //                         ->from('sub_categories')
+    //                         ->where('category_id', $id);
+    //                 });
+    //         })
+    //         ->latest()
+    //         ->get();
+
+    //     return view(
+    //         'frontend.cat-products',
+    //         compact('category', 'categories', 'products')
+    //     );
+    // }
     public function categoryproductlist($id)
     {
+        // Eager loading subcategories for clean relationship performance mapping
         $category = Category::with('subcategories')->findOrFail($id);
 
         $categories = Category::where('status', 1)->get();
 
+        // Getting latest active inventory listed items
         $products = Product::with(['vendor'])
             ->where('status', 1)
             ->where(function ($q) use ($id) {
                 $q->where('category_id', $id)
-                    ->orWhereIn('sub_category_id', function ($sub) use ($id) {
-                        $sub->select('id')
-                            ->from('sub_categories')
-                            ->where('category_id', $id);
-                    });
+                ->orWhereIn('sub_category_id', function ($sub) use ($id) {
+                    $sub->select('id')
+                        ->from('sub_categories')
+                        ->where('category_id', $id);
+                });
             })
             ->latest()
             ->get();
 
-        return view(
-            'frontend.cat-products',
-            compact('category', 'categories', 'products')
-        );
+        return view('frontend.cat-products', compact('category', 'categories', 'products'));
     }
     public function bussinessproductlist($id)
     {
         $bussiness = BusinessType::findOrFail($id);
-        $categories = Category::with('subcategories')
+        
+        // Eager loading configuration setup for category dashboard tree layout
+        // $categories = Category::with(['subcategories' => function($query) {
+        //         $query->where('status', 1); // Only active subcategories inside matching nodes
+        //     }])
+        //     ->where('business_type_id', $id)
+        //     ->where('status', 1)
+        //     ->get();
+        $categories = Category::has('subcategories') // Subcategories ulla rows mattum dhaan varum
+            ->with(['subcategories' => function($query) {
+                $query->where('status', 1);
+            }])
             ->where('business_type_id', $id)
             ->where('status', 1)
             ->get();
@@ -567,10 +653,7 @@ class HomeController extends Controller
             ->latest()
             ->get();
 
-        return view(
-            'frontend.bussiness-products',
-            compact('categories', 'products', 'bussiness')
-        );
+        return view('frontend.bussiness-products', compact('categories', 'products', 'bussiness'));
     }
     public function show($id)
     {

@@ -106,6 +106,12 @@
         <i class="fa fa-city me-2"></i> Properties
 
     </a>
+    <a href="{{ route('admin.bannerplans.index') }}"
+        class="nav-link {{ request()->routeIs('admin.bannerplans.*') ? 'active' : '' }}">
+
+        <i class="fa fa-city me-2"></i> Banner Plans
+
+    </a>
 
     <div class="mt-auto p-3">
         <form method="POST" action="{{ route('admin.logout') }}">

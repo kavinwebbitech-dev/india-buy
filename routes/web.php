@@ -16,6 +16,7 @@ use App\Http\Controllers\Vendor\DashboardController;
 use \App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\Vendor\ManufacturerController;
 use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\BannerPlanController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Vendor\ServiceController; 
@@ -78,7 +79,7 @@ Route::get('/enquiries/{id}/messages', [ChatController::class, 'index'])
 
 Route::post('/enquiries/{id}/messages', [ChatController::class, 'store'])
     ->name('enquiries.messages.store');
- 
+ Route::post('/enquiries/{id}/quotations', [ChatController::class, 'storeQuotation'])->name('enquiries.quotations.store');
 
 Route::post('/rfq/store', [RfqController::class, 'store'])
     ->name('rfq.store');
@@ -253,6 +254,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/settings/update', [AuthController::class, 'updateSettings'])->name('settings.update');
 
 
+        Route::resource('bannerplans', BannerPlanController::class)->names('bannerplans');
        
         Route::resource('vendor-types', VendorTypeController::class)->names('vendortype');
         Route::resource('business-type', BusinessTypeController::class)->names('businesstype');
