@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Enquiry;
+use App\Models\Quotation; 
 class DashboardController extends Controller
 {
 // public function manufacturerDashboard()
@@ -44,7 +45,8 @@ class DashboardController extends Controller
 
 public function manufacturerDashboard(Request $request)
 {
-    $userId = Auth::guard('vendor')->id();
+    // 1. சரியான Vendor Guard மூலமாக லாகின் செய்த ID-ஐ எடுக்கிறோம்
+    $userId = Auth::guard('vendor')->id(); 
 
     $query = Enquiry::with([
         'product',
@@ -55,20 +57,15 @@ public function manufacturerDashboard(Request $request)
 
     // Search Filter
     if ($request->filled('search')) {
-
         $search = $request->search;
-
         $query->where(function ($q) use ($search) {
-
             $q->whereHas('sender', function ($sender) use ($search) {
                 $sender->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%");
+                       ->orWhere('email', 'like', "%{$search}%");
             })
-
             ->orWhereHas('product', function ($product) use ($search) {
                 $product->where('product_name', 'like', "%{$search}%");
             })
-
             ->orWhereHas('service', function ($service) use ($search) {
                 $service->where('service_name', 'like', "%{$search}%");
             });
@@ -90,7 +87,7 @@ public function manufacturerDashboard(Request $request)
         $query->where('is_replied', 0);
     }
 
-    $enquiries = $query->latest()->paginate(10);
+    $enquiries = $query->latest()->paginate(10, ['*'], 'enquiries_page');
 
     $sendenquiries = Enquiry::with([
         'product',
@@ -101,8 +98,16 @@ public function manufacturerDashboard(Request $request)
     ->where('sender_id', $userId)
     ->where('is_read', 0)
     ->latest()
-    ->paginate(10);
-    return view('vendor.manufacturer.dashboard', compact('enquiries','sendenquiries'));
+    ->paginate(10, ['*'], 'send_enquiries_page');
+
+    $quotations = Quotation::with(['enquiry.receiver', 'enquiry.product', 'enquiry.service'])
+        ->where('vendor_id', $userId) // auth()->id() க்குப் பதிலாக $userId
+        ->latest()
+        ->paginate(10, ['*'], 'quotations_page');
+
+    // dd($quotations, $userId);
+
+    return view('vendor.manufacturer.dashboard', compact('enquiries', 'sendenquiries', 'quotations'));
 }
 
 public function manufacturerProducts()

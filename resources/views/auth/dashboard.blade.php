@@ -10,38 +10,7 @@
     <div class="bg-slate-50 min-h-screen py-8">
         <div class="max-w-7xl mx-auto px-4">
 
-            <!-- <div
-                class="bg-white rounded-2xl border border-gray-100 p-2 mb-8 flex items-center hide-scrollbar shadow-[0_2px_10px_rgb(0,0,0,0.02)] gap-1">
-                <p class="px-5 py-2.5 rounded-xl text-[14px] font-medium text-gray-500 transition-colors whitespace-nowrap">Message</p=>
-               
-                <div class="relative group ml-auto shrink-0 z-50">
 
-                    <button
-                        class="flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-xl text-[13px] font-bold hover:bg-primaryHover transition-all shadow-md shadow-primary/20">
-                        <i data-lucide="user-circle" class="w-4 h-4"></i> My Account
-                        <i data-lucide="chevron-down"
-                            class="w-3.5 h-3.5 opacity-80 transition-transform group-hover:rotate-180"></i>
-                    </button>
-
-                    <div
-                        class="absolute top-full right-0 p-2 mt-2 w-48 bg-white border border-gray-100 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top-right scale-95 group-hover:scale-100">
-
-                        <a href="#" data-target="panel-profile"
-                            class="sidebar-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-gray-600 hover:bg-slate-50 hover:text-primary transition-colors text-[14px] font-medium">
-                            <i data-lucide="user" class="w-4 h-4"></i> Profile
-                        </a>
-
-                        <div class="h-px bg-gray-100 my-1.5"></div>
-
-
-                        <a href="#"
-                            class="sidebar-link flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-gray-600 hover:bg-slate-50 hover:text-primary transition-colors text-[14px] font-medium">
-                            <i data-lucide="log-out" class="w-4 h-4"></i> Logout
-                        </a>
-
-                    </div>
-                </div>
-            </div> -->
 
             <div class="flex flex-col lg:flex-row gap-8">
 
@@ -124,80 +93,10 @@
                                 <button
                                     class="inbox-tab-btn pb-3 border-b-2 border-primary text-primary font-bold whitespace-nowrap"
                                     data-filter="all">All</button>
-                                {{-- <button
-                                    class="inbox-tab-btn pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-900 transition-colors whitespace-nowrap"
-                                    data-filter="unread">
-                                    Unread <span
-                                        class="text-xs ml-1 bg-gray-100 px-1.5 py-0.5 rounded-md text-gray-600">1</span>
-                                </button>
-                                <button
-                                    class="inbox-tab-btn pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-900 transition-colors whitespace-nowrap"
-                                    data-filter="unreplied">Not yet replied</button> --}}
+
                             </div>
                         </div>
 
-                        {{-- <div
-                            class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-col sm:flex-row flex-wrap gap-3 items-center">
-                            <div class="relative w-full sm:w-auto">
-                                <select
-                                    class="w-full sm:w-40 h-10 pl-9 pr-8 bg-white border border-gray-200 rounded-xl text-[13px] font-medium text-gray-600 appearance-none focus:outline-none focus:border-primary">
-                                    <option>Sent Time</option>
-                                    <option>Last 7 Days</option>
-                                </select>
-                                <i data-lucide="calendar"
-                                    class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                                <i data-lucide="chevron-down"
-                                    class="w-3.5 h-3.5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                            </div>
-                            <div class="relative flex-1 min-w-[200px] w-full">
-                                <i data-lucide="search"
-                                    class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-                                <input type="text" placeholder="Subject/Name/Email"
-                                    class="w-full h-10 pl-9 pr-3 bg-white border border-gray-200 rounded-xl text-[13px] font-medium text-gray-700 focus:outline-none focus:border-primary placeholder-gray-400">
-                            </div>
-                            <button
-                                class="text-primary text-[13px] font-bold hover:text-primaryHover transition-colors px-2">Clear
-                                All</button>
-                        </div> --}}
-
-                        {{-- <form method="GET" action="{{ route('auth.dashboard') }}#panel-inbox"
-                            class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-col sm:flex-row flex-wrap gap-3 items-center">
-
-                            <div class="relative w-full sm:w-auto">
-                                <select name="sent_time"
-                                    class="w-full sm:w-40 h-10 pl-9 pr-8 bg-white border border-gray-200 rounded-xl text-[13px] font-medium text-gray-600 appearance-none focus:outline-none focus:border-primary"
-                                    onchange="this.form.submit()">
-                                    <option value="" {{ request('sent_time') == '' ? 'selected' : '' }}>Sent Time
-                                    </option>
-                                    <option value="7" {{ request('sent_time') == '7' ? 'selected' : '' }}>Last 7
-                                        Days</option>
-                                    <option value="30" {{ request('sent_time') == '30' ? 'selected' : '' }}>Last 30
-                                        Days</option>
-                                </select>
-                                <i data-lucide="calendar"
-                                    class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                                <i data-lucide="chevron-down"
-                                    class="w-3.5 h-3.5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                            </div>
-
-                            <div class="relative flex-1 min-w-[200px] w-full">
-                                <i data-lucide="search"
-                                    class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-                                <input type="text" name="search" value="{{ request('search') }}"
-                                    placeholder="Subject/Name/Email"
-                                    class="w-full h-10 pl-9 pr-3 bg-white border border-gray-200 rounded-xl text-[13px] font-medium text-gray-700 focus:outline-none focus:border-primary placeholder-gray-400">
-                            </div>
-
-                            <button type="submit"
-                                class="bg-primary text-white text-[13px] font-bold px-4 h-10 rounded-xl hover:bg-primaryHover transition-colors">
-                                Search
-                            </button>
-
-                            <a href="{{ route('dashboard') }}#panel-inbox"
-                                class="text-primary text-[13px] font-bold hover:text-primaryHover transition-colors px-2">Clear
-                                All</a>
-
-                        </form> --}}
 
                         <div class="flex-1 overflow-x-auto hide-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[800px]">
@@ -313,11 +212,11 @@
 
                                                 <a href="#"
                                                     onclick="openChat(
-        {{ $enquiry->id }},
-        '{{ addslashes($title) }}',
-        '{{ addslashes($enquiry->receiver?->company_name ?? ($enquiry->receiver?->name ?? 'Supplier')) }}',
-        '{{ $image }}'
-    )"
+                                                        {{ $enquiry->id }},
+                                                        '{{ addslashes($title) }}',
+                                                        '{{ addslashes($enquiry->receiver?->company_name ?? ($enquiry->receiver?->name ?? 'Supplier')) }}',
+                                                        '{{ $image }}'
+                                                    )"
                                                     class="inline-flex items-center gap-2 bg-slate-100 px-4 py-2.5 rounded-xl text-[13px] font-bold">
 
                                                     <i data-lucide="eye" class="w-4 h-4"></i>
@@ -355,18 +254,6 @@
                                     your search criteria.</p>
                             </div>
                         </div>
-
-                        {{-- <div
-                            class="border-t border-gray-100 p-4 bg-white flex items-center justify-between text-[13px] text-gray-500">
-                            <span id="entries-count">Showing 3 entries</span>
-                            <div class="flex gap-1">
-                                <button
-                                    class="px-3 py-1.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50">Prev</button>
-                                <button class="px-3 py-1.5 bg-primary text-white rounded-lg shadow-sm">1</button>
-                                <button
-                                    class="px-3 py-1.5 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">Next</button>
-                            </div>
-                        </div> --}}
 
                         <div
                             class="border-t border-gray-100 p-4 bg-white flex items-center justify-between text-[13px] text-gray-500">
@@ -476,77 +363,6 @@
                                 </strong>
                             </span>
                         </div>
-
-                        {{-- <div
-                            class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-col sm:flex-row flex-wrap gap-3 items-center">
-                            <div class="relative w-full sm:w-auto">
-                                <select
-                                    class="w-full sm:w-40 h-10 pl-9 pr-8 bg-white border border-gray-200 rounded-xl text-[13px] font-medium text-gray-600 appearance-none focus:outline-none focus:border-primary">
-                                    <option>Sent Time</option>
-                                    <option>Last 7 Days</option>
-                                    <option>Last 30 Days</option>
-                                    <option>This Year</option>
-                                </select>
-                                <i data-lucide="calendar"
-                                    class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                                <i data-lucide="chevron-down"
-                                    class="w-3.5 h-3.5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                            </div>
-
-                            <div class="relative w-full sm:w-auto">
-                                <select
-                                    class="w-full sm:w-40 h-10 pl-3 pr-8 bg-white border border-gray-200 rounded-xl text-[13px] font-medium text-gray-600 appearance-none focus:outline-none focus:border-primary">
-                                    <option>Status</option>
-                                    <option>Read by Supplier</option>
-                                    <option>Unread</option>
-                                    <option>Replied</option>
-                                </select>
-                                <i data-lucide="chevron-down"
-                                    class="w-3.5 h-3.5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                            </div>
-
-                            <div class="relative flex-1 min-w-[200px] w-full">
-                                <i data-lucide="search"
-                                    class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-                                <input type="text" placeholder="Search Supplier/Product..."
-                                    class="w-full h-10 pl-9 pr-3 bg-white border border-gray-200 rounded-xl text-[13px] font-medium text-gray-700 focus:outline-none focus:border-primary placeholder-gray-400">
-                            </div>
-
-                            <button
-                                class="text-primary text-[13px] font-bold hover:text-primaryHover transition-colors px-2">Clear
-                                All</button>
-                        </div> --}}
-
-                        {{-- <form method="GET" action="{{ route('user.dashboard') }}">
-                            <div class="p-4 bg-slate-50/50 border-b border-gray-100 flex flex-wrap gap-3">
-
-                                <select name="date_filter" class="w-full sm:w-40 h-10 border rounded-xl">
-                                    <option value="">Sent Time</option>
-                                    <option value="7days" {{ request('date_filter') == '7days' ? 'selected' : '' }}>
-                                        Last 7 Days
-                                    </option>
-                                    <option value="30days" {{ request('date_filter') == '30days' ? 'selected' : '' }}>
-                                        Last 30 Days
-                                    </option>
-                                    <option value="year" {{ request('date_filter') == 'year' ? 'selected' : '' }}>
-                                        This Year
-                                    </option>
-                                </select>
-
-                                <input type="text" name="search" value="{{ request('search') }}"
-                                    placeholder="Search Supplier/Product..."
-                                    class="flex-1 h-10 border rounded-xl px-3">
-
-                                <button type="submit" class="bg-primary text-white px-4 rounded-xl">
-                                    Filter
-                                </button>
-
-                                <a href="{{ route('user.dashboard') }}" class="text-primary font-bold px-2">
-                                    Clear All
-                                </a>
-
-                            </div>
-                        </form> --}}
 
                         <div class="flex-1 overflow-x-auto hide-scrollbar">
                             <table class="w-full text-left border-collapse min-w-[800px]">
@@ -1050,15 +866,150 @@
                         <div class="px-6 pt-6 border-b border-gray-100">
                             <h1 class="text-[20px] font-bold text-gray-900 mb-6">Manage Quotations</h1>
                         </div>
-                        <div class="flex-1 flex flex-col items-center justify-center p-12 text-center bg-slate-50/30">
-                            <div
-                                class="w-24 h-24 bg-white shadow-sm border border-gray-100 rounded-full flex items-center justify-center mb-5">
-                                <i data-lucide="file-text" class="w-10 h-10 text-gray-300"></i>
+
+                        @if ($quotations->count() > 0)
+                            {{-- கொட்டேஷன் இருந்தால் டேபிள் காட்டும் --}}
+                            <div class="flex-1 overflow-x-auto hide-scrollbar">
+                                <table class="w-full text-left border-collapse min-w-[800px]">
+                                    <thead>
+                                        <tr
+                                            class="bg-white border-b border-gray-100 text-[12px] uppercase tracking-wider text-gray-400 font-bold">
+                                            <th class="px-6 py-4 w-12 text-center">#</th>
+                                            <th class="px-6 py-4">Received From (Vendor)</th>
+                                            <th class="px-6 py-4">Product / Service</th>
+                                            <th class="px-6 py-4">Price / Amount</th>
+                                            <th class="px-6 py-4">Received Date</th>
+                                            <th class="px-6 py-4 text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-50 text-[14px]">
+                                        @foreach ($quotations as $index => $quote)
+                                            @php
+                                                $enquiry = $quote->enquiry;
+                                                $title = 'Item Not Available';
+                                                $image = asset('assets/images/no-image.png');
+                                                $type = 'N/A';
+
+                                                if ($enquiry) {
+                                                    if ($enquiry->product) {
+                                                        $title = $enquiry->product->product_name;
+                                                        $images = json_decode($enquiry->product->image, true);
+                                                        $image =
+                                                            !empty($images) && isset($images[0])
+                                                                ? asset('uploads/products/' . $images[0])
+                                                                : asset('assets/images/no-image.png');
+                                                        $type = 'Product';
+                                                    } elseif ($enquiry->service) {
+                                                        $title = $enquiry->service->service_name;
+                                                        $image = $enquiry->service->service_img
+                                                            ? asset(
+                                                                'uploads/service/images/' .
+                                                                    $enquiry->service->service_img,
+                                                            )
+                                                            : asset('assets/images/no-image.png');
+                                                        $type = 'Service';
+                                                    }
+                                                }
+                                            @endphp
+
+                                            <tr class="hover:bg-slate-50/50 transition-colors bg-white group">
+                                                <td class="px-6 py-5 text-center text-gray-400 font-medium">
+                                                    {{ $quotations->firstItem() + $index }}
+                                                </td>
+
+                                                {{-- Vendor Name --}}
+                                                <td class="px-6 py-5">
+                                                    <div class="flex items-center gap-3">
+                                                        <div
+                                                            class="w-10 h-10 rounded-full bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg">
+                                                            {{ strtoupper(substr($enquiry->receiver->name ?? 'V', 0, 1)) }}
+                                                        </div>
+                                                        <div>
+                                                            <p class="font-bold text-gray-900 leading-tight">
+                                                                {{ $enquiry->receiver->name ?? 'Unknown Vendor' }}
+                                                            </p>
+                                                            <div class="text-[12px] text-gray-500">
+                                                                {{ $enquiry->receiver->company_name ?? 'Manufacturer' }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                {{-- Product info --}}
+                                                <td class="px-6 py-5">
+                                                    <div class="flex items-center gap-3">
+                                                        <div
+                                                            class="w-12 h-12 rounded-xl border border-gray-100 p-1 bg-white shadow-sm flex-shrink-0">
+                                                            <img src="{{ $image }}"
+                                                                class="w-full h-full object-contain">
+                                                        </div>
+                                                        <div>
+                                                            <p
+                                                                class="font-medium text-gray-900 line-clamp-1 max-w-[220px] text-[13px]">
+                                                                {{ $title }}
+                                                            </p>
+                                                            <span
+                                                                class="text-[10px] px-2 py-0.5 rounded bg-blue-50 text-blue-600">
+                                                                {{ $type }}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                {{-- Quote Amount --}}
+                                                <td class="px-6 py-5 font-bold text-gray-900">
+                                                    ₹{{ number_format($quote->amount, 2) }}
+                                                </td>
+
+                                                {{-- Date --}}
+                                                <td class="px-6 py-5">
+                                                    <div class="text-[13px] font-medium text-gray-900">
+                                                        {{ $quote->created_at->format('M d, Y') }}</div>
+                                                    <div class="text-[11px] text-gray-400">
+                                                        {{ $quote->created_at->format('h:i A') }}</div>
+                                                </td>
+
+                                                {{-- Actions --}}
+                                                <td
+                                                    class="px-6 py-5 text-center flex items-center justify-center gap-2">
+                                                    <a href="#"
+                                                        onclick="openChat({{ $enquiry->id ?? 0 }}, '{{ addslashes($title) }}', '{{ addslashes($enquiry->receiver->name ?? 'Vendor') }}', '{{ $image }}')"
+                                                        class="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 px-3 py-2 rounded-xl text-[13px] font-bold">
+                                                        <i data-lucide="message-square" class="w-4 h-4"></i> Chat
+                                                    </a>
+
+                                                    @if ($quote->file_path)
+                                                        <a href="{{ asset($quote->file_path) }}" target="_blank"
+                                                            class="inline-flex items-center gap-2 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-2 rounded-xl text-[13px] font-bold">
+                                                            <i data-lucide="file-text" class="w-4 h-4"></i> View PDF
+                                                        </a>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-                            <h3 class="text-[16px] font-bold text-gray-900 mb-1">No active quotations</h3>
-                            <p class="text-[13px] text-gray-500 max-w-sm">When you request or send a quote, you can
-                                manage it here.</p>
-                        </div>
+
+                            {{-- Pagination Footer --}}
+                            <div
+                                class="border-t border-gray-100 p-4 bg-white flex items-center justify-between text-[13px] text-gray-500">
+                                <span>Showing {{ $quotations->firstItem() ?? 0 }} to
+                                    {{ $quotations->lastItem() ?? 0 }} of {{ $quotations->total() }} entries</span>
+                                <div>{{ $quotations->appends(request()->except('quotes_page'))->links() }}</div>
+                            </div>
+                        @else
+                            <div
+                                class="flex-1 flex flex-col items-center justify-center p-12 text-center bg-slate-50/30">
+                                <div
+                                    class="w-24 h-24 bg-white shadow-sm border border-gray-100 rounded-full flex items-center justify-center mb-5">
+                                    <i data-lucide="file-text" class="w-10 h-10 text-gray-300"></i>
+                                </div>
+                                <h3 class="text-[16px] font-bold text-gray-900 mb-1">No active quotations</h3>
+                                <p class="text-[13px] text-gray-500 max-w-sm">When you request or receive a quote from
+                                    suppliers, you can manage it here.</p>
+                            </div>
+                        @endif
                     </div>
 
                 </main>
@@ -1465,139 +1416,6 @@
             updateSlider();
         }, 5000);
     </script>
-    {{-- <script>
-        let currentEnquiryId = null;
-        const markReadUrl = "{{ route('chat.markRead', ':id') }}";
-
-        function openChat(enquiryId, itemName, supplierName, imageUrl) {
-            alert(2);
-
-            currentEnquiryId = enquiryId;
-
-            document.getElementById('chat-item-name').textContent = itemName;
-            document.getElementById('chat-supplier-name').textContent = supplierName;
-            document.getElementById('chat-item-image').src = imageUrl;
-
-            const chat = document.getElementById('supplier-chat-widget');
-
-            chat.classList.remove('translate-y-[120%]');
-            chat.classList.remove('opacity-0');
-
-            // Mark messages as read
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(res => {
-                    console.log('STATUS', res.status);
-                    return res.text();
-                })
-                .then(data => {
-                    console.log('RESPONSE', data);
-                })
-                .catch(err => {
-                    console.error(err);
-                });
-
-            loadMessages(enquiryId);
-            document.querySelector(`#unread-${enquiryId}`)?.remove();
-        }
-
-        function loadMessages(enquiryId) {
-            let url = "{{ route('enquiries.messages', ':id') }}";
-            url = url.replace(':id', enquiryId);
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-
-                    let html = '';
-
-                    data.forEach(msg => {
-
-                        let isMine = msg.sender_id == {{ auth()->id() }};
-
-                        html += `
-                    <div class="flex ${isMine ? 'justify-end' : 'justify-start'}">
-
-                        <div class="${isMine
-                            ? 'bg-blue-600 text-white'
-                            : 'bg-white border border-gray-200 text-gray-800'}
-                            px-4 py-2 rounded-2xl max-w-[75%]">
-
-                            <div class="text-[13px]">
-                                ${msg.message}
-                            </div>
-
-                            <div class="text-[10px] mt-1 opacity-70">
-                                ${msg.sender.name}
-                            </div>
-
-                        </div>
-
-                    </div>
-                `;
-                    });
-
-                    document.getElementById('chat-messages').innerHTML = html;
-
-                    let box = document.getElementById('chat-messages');
-                    box.scrollTop = box.scrollHeight;
-                });
-        }
-
-        function sendMessage() {
-            let message = document.getElementById('chat-message').value;
-
-            if (message.trim() === '') {
-                return;
-            }
-
-            let url = "{{ route('enquiries.messages.store', ':id') }}";
-            url = url.replace(':id', currentEnquiryId);
-
-            fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message: message
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-
-                    document.getElementById('chat-message').value = '';
-
-                    loadMessages(currentEnquiryId);
-                });
-        }
-
-        document.getElementById('close-chat-btn')
-            .addEventListener('click', function() {
-
-                const chat = document.getElementById('supplier-chat-widget');
-
-                chat.classList.add('translate-y-[120%]');
-                chat.classList.add('opacity-0');
-
-            });
-
-        setInterval(() => {
-
-            if (currentEnquiryId) {
-                loadMessages(currentEnquiryId);
-            }
-
-        }, 3000);
-    </script> --}}
 
     <script>
         let currentEnquiryId = null;

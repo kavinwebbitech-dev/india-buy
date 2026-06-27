@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Enquiry;
+use App\Models\Quotation;
+
 
 class UsersController extends Controller
 {
@@ -41,80 +43,148 @@ class UsersController extends Controller
     //     // dd( $enquiries,$sendenquiries, auth()->id());
     //     return view('auth.dashboard', compact('enquiries','sendenquiries'));
     // }
+    // public function dashboard(Request $request)
+    // {
+    //     if (!auth()->check()) {
+    //         return redirect()->route('login');
+    //     }
+
+    //     $sendenquiries = Enquiry::with([
+    //         'product',
+    //         'service',
+    //         'sender',
+    //         'receiver'
+    //     ])
+    //         ->where('sender_id', auth()->id());
+
+    //     // Date Filter
+    //     if ($request->filled('date_filter')) {
+
+    //         switch ($request->date_filter) {
+
+    //             case '7days':
+    //                 $sendenquiries->whereDate('created_at', '>=', now()->subDays(7));
+    //                 break;
+
+    //             case '30days':
+    //                 $sendenquiries->whereDate('created_at', '>=', now()->subDays(30));
+    //                 break;
+
+    //             case 'year':
+    //                 $sendenquiries->whereYear('created_at', now()->year);
+    //                 break;
+    //         }
+    //     }
+
+    //     // Search Filter
+    //     if ($request->filled('search')) {
+
+    //         $search = $request->search;
+
+    //         $sendenquiries->where(function ($q) use ($search) {
+
+    //             $q->whereHas('receiver', function ($receiver) use ($search) {
+    //                 $receiver->where('vendor_name', 'like', "%{$search}%");
+    //             })
+
+    //                 ->orWhereHas('product', function ($product) use ($search) {
+    //                     $product->where('product_name', 'like', "%{$search}%");
+    //                 })
+
+    //                 ->orWhereHas('service', function ($service) use ($search) {
+    //                     $service->where('service_name', 'like', "%{$search}%");
+    //                 });
+    //         });
+    //     }
+
+    //     $sendenquiries = $sendenquiries
+    //         ->latest()
+    //         ->paginate(10)
+    //         ->withQueryString();
+
+    //     $enquiries = Enquiry::with([
+    //         'product',
+    //         'service',
+    //         'sender',
+    //         'receiver'
+    //     ])
+    //         ->whereIn('id', function ($query) {
+    //             $query->select('enquiry_id')
+    //                 ->from('chat_messages')
+    //                 ->where('receiver_id', auth()->id());
+    //         })
+    //         ->latest()
+    //         ->paginate(10);
+
+    //     return view('auth.dashboard', compact('enquiries', 'sendenquiries'));
+    // }
     public function dashboard(Request $request)
     {
         if (!auth()->check()) {
             return redirect()->route('login');
         }
 
-        $sendenquiries = Enquiry::with([
+        $userId = auth()->id();
+
+        // --- 1. Send Enquiries Logic ---
+        $sendenquiriesQuery = Enquiry::with([
             'product',
             'service',
             'sender',
             'receiver'
-        ])
-            ->where('sender_id', auth()->id());
+        ])->where('sender_id', $userId);
 
         // Date Filter
         if ($request->filled('date_filter')) {
-
             switch ($request->date_filter) {
-
                 case '7days':
-                    $sendenquiries->whereDate('created_at', '>=', now()->subDays(7));
+                    $sendenquiriesQuery->whereDate('created_at', '>=', now()->subDays(7));
                     break;
-
                 case '30days':
-                    $sendenquiries->whereDate('created_at', '>=', now()->subDays(30));
+                    $sendenquiriesQuery->whereDate('created_at', '>=', now()->subDays(30));
                     break;
-
                 case 'year':
-                    $sendenquiries->whereYear('created_at', now()->year);
+                    $sendenquiriesQuery->whereYear('created_at', now()->year);
                     break;
             }
         }
 
         // Search Filter
         if ($request->filled('search')) {
-
             $search = $request->search;
-
-            $sendenquiries->where(function ($q) use ($search) {
-
+            $sendenquiriesQuery->where(function ($q) use ($search) {
                 $q->whereHas('receiver', function ($receiver) use ($search) {
                     $receiver->where('vendor_name', 'like', "%{$search}%");
                 })
-
-                    ->orWhereHas('product', function ($product) use ($search) {
-                        $product->where('product_name', 'like', "%{$search}%");
-                    })
-
-                    ->orWhereHas('service', function ($service) use ($search) {
-                        $service->where('service_name', 'like', "%{$search}%");
-                    });
+                ->orWhereHas('product', function ($product) use ($search) {
+                    $product->where('product_name', 'like', "%{$search}%");
+                })
+                ->orWhereHas('service', function ($service) use ($search) {
+                    $service->where('service_name', 'like', "%{$search}%");
+                });
             });
         }
 
-        $sendenquiries = $sendenquiries
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
+        $sendenquiries = $sendenquiriesQuery->latest()->paginate(10, ['*'], 'send_enq_page')->withQueryString();
 
-        $enquiries = Enquiry::with([
-            'product',
-            'service',
-            'sender',
-            'receiver'
-        ])
-            ->whereIn('id', function ($query) {
+        // --- 2. Enquiries (Chat Base) Logic ---
+        $enquiries = Enquiry::with(['product', 'service', 'sender', 'receiver'])
+            ->whereIn('id', function ($query) use ($userId) {
                 $query->select('enquiry_id')
                     ->from('chat_messages')
-                    ->where('receiver_id', auth()->id());
+                    ->where('receiver_id', $userId);
             })
             ->latest()
-            ->paginate(10);
+            ->paginate(10, ['*'], 'enq_page');
 
-        return view('auth.dashboard', compact('enquiries', 'sendenquiries'));
+        $quotations = Quotation::with(['enquiry.receiver', 'enquiry.product', 'enquiry.service'])
+            ->whereHas('enquiry', function($q) use ($userId) {
+                $q->where('sender_id', $userId);
+            })
+            ->latest()
+            ->paginate(10, ['*'], 'quotes_page');
+
+        return view('auth.dashboard', compact('enquiries', 'sendenquiries', 'quotations'));
     }
 
     public function profileUpdate(Request $request)
